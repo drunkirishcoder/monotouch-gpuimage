@@ -50,5 +50,6 @@
     <Compile Include="libGPUImage.linkwith.cs">
       <DependentUpon>libGPUImage.a</DependentUpon>
     </Compile>
+    <Compile Include="Extras.cs" />
   </ItemGroup>
 </Project>
