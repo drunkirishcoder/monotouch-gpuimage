@@ -4,10 +4,54 @@ using MonoTouch.ObjCRuntime;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 using MonoTouch.CoreMedia;
+using MonoTouch.CoreVideo;
 using MonoTouch.CoreGraphics;
 
 namespace MonoTouch.GpuImage
 {
+	[BaseType (typeof (NSObject))]
+	public partial interface GLProgram
+	{
+		[Export ("initialized")]
+		bool Initialized { get; set; }
+
+		[Export ("initWithVertexShaderString:fragmentShaderString:")]
+		IntPtr Constructor (string vShaderString, string fShaderString);
+
+		//[Export ("initWithVertexShaderString:fragmentShaderFilename:")]
+		//IntPtr Constructor (string vShaderString, string fShaderFilename);
+
+		//[Export ("initWithVertexShaderFilename:fragmentShaderFilename:")]
+		//IntPtr Constructor (string vShaderFilename, string fShaderFilename);
+
+		[Export ("addAttribute:")]
+		void AddAttribute (string attributeName);
+
+		[Export ("attributeIndex:")]
+		uint AttributeIndex (string attributeName);
+
+		[Export ("uniformIndex:")]
+		uint UniformIndex (string uniformName);
+
+		[Export ("link")]
+		bool Link { get; }
+
+		[Export ("use")]
+		void Use ();
+
+		[Export ("vertexShaderLog")]
+		string VertexShaderLog { get; }
+
+		[Export ("fragmentShaderLog")]
+		string FragmentShaderLog { get; }
+
+		[Export ("programLog")]
+		string ProgramLog { get; }
+
+		[Export ("validate")]
+		void Validate ();
+	}
+
 	[Model, BaseType (typeof (NSObject))]
 	public partial interface GPUImageInput
 	{
@@ -199,6 +243,162 @@ namespace MonoTouch.GpuImage
 
 		[Export ("processImageWithCompletionHandler:")]
 		bool ProcessImageWithCompletionHandler (Action completion);
+	}
+
+	[BaseType (typeof (GPUImageOutput))]
+	public partial interface GPUImageFilter : GPUImageInput
+	{
+		//[Export ("renderTarget")]
+		//CVPixelBuffer RenderTarget { get; }
+
+		[Export ("preventRendering")]
+		bool PreventRendering { get; set; }
+
+		//[Export ("currentlyReceivingMonochromeInput")]
+		//bool CurrentlyReceivingMonochromeInput { get; set; }
+
+		[Export ("initWithVertexShaderFromString:fragmentShaderFromString:")]
+		IntPtr Constructor (string vertexShaderString, string fragmentShaderString);
+
+		[Export ("initWithFragmentShaderFromString:")]
+		IntPtr Constructor (string fragmentShaderString);
+
+		//[Export ("initWithFragmentShaderFromFile:")]
+		//IntPtr Constructor (string fragmentShaderFilename);
+
+		[Export ("initializeAttributes")]
+		void InitializeAttributes ();
+
+		[Export ("upFilterForSize")]
+		SizeF upFilterForSize { set; }
+
+		[Export ("rotatedSize:forIndex:")]
+		SizeF RotatedSize (SizeF sizeToRotate, int textureIndex);
+
+		[Export ("rotatedPoint:forRotation:")]
+		PointF RotatedPoint (PointF pointToRotate, GPUImageRotationMode rotation);
+
+		[Export ("recreateFilterFBO")]
+		void RecreateFilterFBO ();
+
+		[Export ("sizeOfFBO")]
+		SizeF SizeOfFBO { get; }
+
+		[Export ("createFilterFBOofSize:")]
+		void CreateFilterFBOofSize (SizeF currentFBOSize);
+
+		[Export ("destroyFilterFBO")]
+		void DestroyFilterFBO ();
+
+		[Export ("setFilterFBO")]
+		void SetFilterFBO ();
+
+		[Export ("setOutputFBO")]
+		void SetOutputFBO ();
+
+		[Export ("releaseInputTexturesIfNeeded")]
+		void ReleaseInputTexturesIfNeeded ();
+
+		[Static, Export ("textureCoordinatesForRotation:")]
+		IntPtr TextureCoordinatesForRotation (GPUImageRotationMode rotationMode);
+
+		[Export ("renderToTextureWithVertices:textureCoordinates:sourceTexture:")]
+		void RenderToTextureWithVertices (IntPtr vertices, IntPtr textureCoordinates, uint sourceTexture);
+
+		[Export ("informTargetsAboutNewFrameAtTime:")]
+		void InformTargetsAboutNewFrameAtTime (CMTime frameTime);
+
+		[Export ("outputFrameSize")]
+		SizeF OutputFrameSize { get; }
+
+		[Export ("setBackgroundColorRed:green:blue:alpha:")]
+		void SetBackgroundColorRed (float redComponent, float greenComponent, float blueComponent, float alphaComponent);
+
+		[Export ("setInteger:forUniformName:")]
+		void SetInteger (int newInteger, string uniformName);
+
+		[Export ("setFloat:forUniformName:")]
+		void SetFloat (float newFloat, string uniformName);
+
+		[Export ("setSize:forUniformName:")]
+		void SetSize (SizeF newSize, string uniformName);
+
+		[Export ("setPoint:forUniformName:")]
+		void SetPoint (PointF newPoint, string uniformName);
+
+		[Export ("setFloatVec3:forUniformName:")]
+		void SetFloatVec3 (GPUVector3 newVec3, string uniformName);
+
+		[Export ("setFloatVec4:forUniform:")]
+		void SetFloatVec4 (GPUVector4 newVec4, string uniformName);
+
+		[Export ("setFloatArray:length:forUniform:")]
+		void SetFloatArray (IntPtr array, int count, string uniformName);
+
+		[Export ("setMatrix3f:forUniform:program:")]
+		void SetMatrix3f (GPUMatrix3x3 matrix, int uniform, GLProgram shaderProgram);
+
+		[Export ("setMatrix4f:forUniform:program:")]
+		void SetMatrix4f (GPUMatrix4x4 matrix, int uniform, GLProgram shaderProgram);
+
+		[Export ("setFloat:forUniform:program:")]
+		void SetFloat (float floatValue, int uniform, GLProgram shaderProgram);
+
+		[Export ("setPoint:forUniform:program:")]
+		void SetPoint (PointF pointValue, int uniform, GLProgram shaderProgram);
+
+		[Export ("setSize:forUniform:program:")]
+		void SetSize (SizeF sizeValue, int uniform, GLProgram shaderProgram);
+
+		[Export ("setVec3:forUniform:program:")]
+		void SetVec3 (GPUVector3 vectorValue, int uniform, GLProgram shaderProgram);
+
+		[Export ("setVec4:forUniform:program:")]
+		void SetVec4 (GPUVector4 vectorValue, int uniform, GLProgram shaderProgram);
+
+		[Export ("setFloatArray:length:forUniform:program:")]
+		void SetFloatArray (IntPtr arrayValue, int arrayLength, int uniform, GLProgram shaderProgram);
+
+		[Export ("setInteger:forUniform:program:")]
+		void SetInteger (int intValue, int uniform, GLProgram shaderProgram);
+
+		[Export ("setAndExecuteUniformStateCallbackAtIndex:forProgram:toBlock:")]
+		void SetAndExecuteUniformStateCallbackAtIndex (int uniform, GLProgram shaderProgram, Action uniformStateBlock);
+
+		[Export ("uniformsForProgramAtIndex")]
+		uint UniformsForProgramAtIndex { set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageTwoPassFilter
+	{
+		[Export ("initWithFirstStageVertexShaderFromString:firstStageFragmentShaderFromString:secondStageVertexShaderFromString:secondStageFragmentShaderFromString:")]
+		IntPtr Constructor (string firstStageVertexShaderString, string firstStageFragmentShaderString, string secondStageVertexShaderString, string secondStageFragmentShaderString);
+
+		[Export ("initWithFirstStageFragmentShaderFromString:secondStageFragmentShaderFromString:")]
+		IntPtr Constructor (string firstStageFragmentShaderString, string secondStageFragmentShaderString);
+
+		[Export ("initializeSecondaryAttributes")]
+		void InitializeSecondaryAttributes ();
+
+		[Export ("initializeSecondOutputTextureIfNeeded")]
+		void InitializeSecondOutputTextureIfNeeded ();
+
+		[Export ("createSecondFilterFBOofSize:")]
+		void CreateSecondFilterFBOofSize (SizeF currentFBOSize);
+	}
+
+	[BaseType (typeof (GPUImageTwoPassFilter))]
+	public partial interface GPUImageSobelEdgeDetectionFilter
+	{
+		[Export ("texelWidth")]
+		float TexelWidth { get; set; }
+
+		[Export ("texelHeight")]
+		float TexelHeight { get; set; }
+
+		[Export ("edgeStrength")]
+		float EdgeStrength { get; set; }
 	}
 }
 
