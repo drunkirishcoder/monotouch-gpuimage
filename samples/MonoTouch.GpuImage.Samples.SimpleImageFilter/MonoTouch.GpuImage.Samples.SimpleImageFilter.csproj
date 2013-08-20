@@ -99,4 +99,7 @@
       <Name>MonoTouch.GpuImage</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="comcast-tower.jpg" />
+  </ItemGroup>
 </Project>
