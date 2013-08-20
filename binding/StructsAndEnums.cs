@@ -19,5 +19,16 @@ namespace MonoTouch.GpuImage
 		PreserveAspectRatio,
 		PreserveAspectRatioAndFill
 	}
+
+	public struct GPUTextureOptions
+	{
+		public int MinFilter;
+		public int MagFilter;
+		public int WrapS;
+		public int WrapT;
+		public int InternalFormat;
+		public int Format;
+		public int Type;
+	}
 }
 
