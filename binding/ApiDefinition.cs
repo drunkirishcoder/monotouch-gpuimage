@@ -388,6 +388,38 @@ namespace MonoTouch.GpuImage
 		void CreateSecondFilterFBOofSize (SizeF currentFBOSize);
 	}
 
+	[BaseType (typeof (GPUImageOutput))]
+	public partial interface GPUImageFilterGroup : GPUImageInput, GPUImageTextureDelegate
+	{
+		[Export ("terminalFilter", ArgumentSemantic.Retain)]
+		GPUImageOutput TerminalFilter { get; set; }
+
+		[Export ("initialFilters", ArgumentSemantic.Retain)]
+		GPUImageInput [] InitialFilters { get; set; }
+
+		[Export ("inputFilterToIgnoreForUpdates", ArgumentSemantic.Retain)]
+		GPUImageOutput InputFilterToIgnoreForUpdates { get; set; }
+
+		[Export ("addFilter:")]
+		void AddFilter (GPUImageOutput newFilter);
+
+		[Export ("filterAtIndex:")]
+		GPUImageOutput FilterAtIndex (uint filterIndex);
+
+		[Export ("filterCount")]
+		uint FilterCount { get; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageColorMatrixFilter
+	{
+		[Export ("colorMatrix")]
+		GPUMatrix4x4 ColorMatrix { get; set; }
+
+		[Export ("intensity")]
+		float Intensity { get; set; }
+	}
+
 	[BaseType (typeof (GPUImageTwoPassFilter))]
 	public partial interface GPUImageSobelEdgeDetectionFilter
 	{
@@ -399,6 +431,41 @@ namespace MonoTouch.GpuImage
 
 		[Export ("edgeStrength")]
 		float EdgeStrength { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageColorMatrixFilter))]
+	public partial interface GPUImageSepiaFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageGrayscaleFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageAmatorkaFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageMissEtikateFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageSoftEleganceFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageHazeFilter
+	{
+		[Export ("distance")]
+		float Distance { get; set; }
+
+		[Export ("slope")]
+		float Slope { get; set; }
 	}
 }
 

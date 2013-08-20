@@ -52,4 +52,14 @@
     </Compile>
     <Compile Include="Extras.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\lookup_amatorka.png" />
+    <BundleResource Include="Resources\lookup_miss_etikate.png" />
+    <BundleResource Include="Resources\lookup_soft_elegance_1.png" />
+    <BundleResource Include="Resources\lookup_soft_elegance_2.png" />
+    <BundleResource Include="Resources\lookup.png" />
+  </ItemGroup>
 </Project>
