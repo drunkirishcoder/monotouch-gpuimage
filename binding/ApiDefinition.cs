@@ -154,7 +154,7 @@ namespace MonoTouch.GpuImage
 		void NotifyTargetsAboutNewOutputTexture ();
 
 		[Export ("targets")]
-		GPUImageInput [] Targets { get; }
+		NSObject [] Targets { get; }	//todo: should be GPUImageInput
 
 		[Export ("addTarget:")]
 		void AddTarget (NSObject newTarget);	//todo: should be GPUImageInput
@@ -389,13 +389,13 @@ namespace MonoTouch.GpuImage
 	}
 
 	[BaseType (typeof (GPUImageOutput))]
-	public partial interface GPUImageFilterGroup : GPUImageInput, GPUImageTextureDelegate
+	public partial interface GPUImageFilterGroup : GPUImageInput
 	{
 		[Export ("terminalFilter", ArgumentSemantic.Retain)]
 		GPUImageOutput TerminalFilter { get; set; }
 
 		[Export ("initialFilters", ArgumentSemantic.Retain)]
-		GPUImageInput [] InitialFilters { get; set; }
+		GPUImageOutput [] InitialFilters { get; set; }
 
 		[Export ("inputFilterToIgnoreForUpdates", ArgumentSemantic.Retain)]
 		GPUImageOutput InputFilterToIgnoreForUpdates { get; set; }
