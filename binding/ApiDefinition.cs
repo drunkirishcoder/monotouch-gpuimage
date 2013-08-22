@@ -6,6 +6,7 @@ using MonoTouch.UIKit;
 using MonoTouch.CoreMedia;
 using MonoTouch.CoreVideo;
 using MonoTouch.CoreGraphics;
+using MonoTouch.CoreAnimation;
 
 namespace MonoTouch.GpuImage
 {
@@ -753,6 +754,128 @@ namespace MonoTouch.GpuImage
 
 		[Export ("setColorToReplaceRed:green:blue:")]
 		void SetColorToReplace (float redComponent, float greenComponent, float blueComponent);
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageTransformFilter
+	{
+		[Export ("affineTransform")]
+		CGAffineTransform AffineTransform { get; set; }
+
+		[Export ("transform3D")]
+		CATransform3D Transform3D { get; set; }
+
+		[Export ("ignoreAspectRatio")]
+		bool IgnoreAspectRatio { get; set; }
+
+		[Export ("anchorTopLeft")]
+		bool AnchorTopLeft { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageCropFilter
+	{
+		[Export ("cropRegion")]
+		RectangleF CropRegion { get; set; }
+
+		[Export ("initWithCropRegion:")]
+		IntPtr Constructor (RectangleF newCropRegion);
+	}
+
+	[BaseType (typeof (GPUImageTwoPassFilter))]
+	public partial interface GPUImageTwoPassTextureSamplingFilter
+	{
+		[Export ("verticalTexelSpacing")]
+		float VerticalTexelSpacing { get; set; }
+
+		[Export ("horizontalTexelSpacing")]
+		float HorizontalTexelSpacing { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
+	public partial interface GPUImageLanczosResamplingFilter
+	{
+		[Export ("originalImageSize")]
+		SizeF OriginalImageSize { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageSharpenFilter
+	{
+		[Export ("sharpness")]
+		float Sharpness { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageUnsharpMaskFilter
+	{
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+
+		[Export ("intensity")]
+		float Intensity { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
+	public partial interface GPUImageFastBlurFilter
+	{
+		[Export ("blurPasses")]
+		uint BlurPasses { get; set; }
+
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+
+		[Export ("initWithFragmentShaderFromString:")]
+		IntPtr Constructor (string fragmentShaderString);
+	}
+
+	[BaseType (typeof (GPUImageFastBlurFilter))]
+	public partial interface GPUImageSingleComponentFastBlurFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
+	public partial interface GPUImageGaussianBlurFilter
+	{
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageGaussianBlurFilter))]
+	public partial interface GPUImageSingleComponentGaussianBlurFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageGaussianSelectiveBlurFilter
+	{
+		[Export ("excludeCircleRadius")]
+		float ExcludeCircleRadius { get; set; }
+
+		[Export ("excludeCirclePoint")]
+		PointF ExcludeCirclePoint { get; set; }
+
+		[Export ("excludeBlurSize")]
+		float ExcludeBlurSize { get; set; }
+
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+
+		[Export ("aspectRatio")]
+		float AspectRatio { get; set; }
+	}
+	
+	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
+	public partial interface GPUImageGaussianBlurPositionFilter
+	{
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+
+		[Export ("blurCenter")]
+		PointF BlurCenter { get; set; }
+
+		[Export ("blurRadius")]
+		float BlurRadius { get; set; }
 	}
 
 }
