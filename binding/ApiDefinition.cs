@@ -484,19 +484,6 @@ namespace MonoTouch.GpuImage
 		float Intensity { get; set; }
 	}
 
-	[BaseType (typeof (GPUImageTwoPassFilter))]
-	public partial interface GPUImageSobelEdgeDetectionFilter
-	{
-		[Export ("texelWidth")]
-		float TexelWidth { get; set; }
-
-		[Export ("texelHeight")]
-		float TexelHeight { get; set; }
-
-		[Export ("edgeStrength")]
-		float EdgeStrength { get; set; }
-	}
-
 	[BaseType (typeof (GPUImageFilter))]
 	public partial interface GPUImageRGBFilter
 	{
@@ -876,6 +863,136 @@ namespace MonoTouch.GpuImage
 
 		[Export ("blurRadius")]
 		float BlurRadius { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImage3x3TextureSamplingFilter
+	{
+		[Export ("texelWidth")]
+		float TexelWidth { get; set; }
+
+		[Export ("texelHeight")]
+		float TexelHeight { get; set; }
+	}
+
+	[BaseType (typeof (GPUImage3x3TextureSamplingFilter))]
+	public partial interface GPUImageMedianFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageGaussianBlurFilter))]
+	public partial interface GPUImageBilateralFilter
+	{
+		[Export ("distanceNormalizationFactor")]
+		float DistanceNormalizationFactor { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageTiltShiftFilter
+	{
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+
+		[Export ("topFocusLevel")]
+		float TopFocusLevel { get; set; }
+
+		[Export ("bottomFocusLevel")]
+		float BottomFocusLevel { get; set; }
+
+		[Export ("focusFallOffRate")]
+		float FocusFallOffRate { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
+	public partial interface GPUImageBoxBlurFilter
+	{
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+	}
+
+	[BaseType (typeof (GPUImage3x3TextureSamplingFilter))]
+	public partial interface GPUImage3x3ConvolutionFilter
+	{
+		[Export ("convolutionKernel")]
+		GPUMatrix3x3 ConvolutionKernel { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageTwoPassFilter))]
+	public partial interface GPUImageSobelEdgeDetectionFilter
+	{
+		[Export ("texelWidth")]
+		float TexelWidth { get; set; }
+
+		[Export ("texelHeight")]
+		float TexelHeight { get; set; }
+
+		[Export ("edgeStrength")]
+		float EdgeStrength { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageSobelEdgeDetectionFilter))]
+	public partial interface GPUImagePrewittEdgeDetectionFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageSobelEdgeDetectionFilter))]
+	public partial interface GPUImageThresholdEdgeDetectionFilter
+	{
+		[Export ("threshold")]
+		float Threshold { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageCannyEdgeDetectionFilter
+	{
+		[Export ("texelWidth")]
+		float TexelWidth { get; set; }
+
+		[Export ("texelHeight")]
+		float TexelHeight { get; set; }
+
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+
+		[Export ("upperThreshold")]
+		float UpperThreshold { get; set; }
+
+		[Export ("lowerThreshold")]
+		float LowerThreshold { get; set; }
+	}
+
+	public delegate void CornersDetectedCallback(IntPtr cornerArray, uint cornersDetected, CMTime frameTime);
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageHarrisCornerDetectionFilter
+	{
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+
+		[Export ("sensitivity")]
+		float Sensitivity { get; set; }
+
+		[Export ("threshold")]
+		float Threshold { get; set; }
+
+		[Export ("cornersDetectedBlock", ArgumentSemantic.Copy)]
+		CornersDetectedCallback CornersDetected { get; set; }
+
+		[Export ("intermediateImages", ArgumentSemantic.Retain)]
+		NSMutableArray IntermediateImages { get; }
+
+		[Export ("initWithCornerDetectionFragmentShader:")]
+		IntPtr Constructor (string cornerDetectionFragmentShader);
+	}
+
+	[BaseType (typeof (GPUImageHarrisCornerDetectionFilter))]
+	public partial interface GPUImageNobleCornerDetectionFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageHarrisCornerDetectionFilter))]
+	public partial interface GPUImageShiTomasiFeatureDetectionFilter
+	{
 	}
 
 }
