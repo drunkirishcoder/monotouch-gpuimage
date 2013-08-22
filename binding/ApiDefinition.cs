@@ -485,7 +485,7 @@ namespace MonoTouch.GpuImage
 	}
 
 	[BaseType (typeof (GPUImageFilter))]
-	public partial interface GPUImageRGBFilter
+	public partial interface GPUImageRgbFilter
 	{
 		[Export ("red")]
 		float Red { get; set; }
@@ -995,5 +995,179 @@ namespace MonoTouch.GpuImage
 	{
 	}
 
+	[BaseType (typeof (GPUImage3x3TextureSamplingFilter))]
+	public partial interface GPUImageNonMaximumSuppressionFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageSobelEdgeDetectionFilter))]
+	public partial interface GPUImageXYDerivativeFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageCrosshairGenerator
+	{
+		[Export ("crosshairWidth")]
+		float CrosshairWidth { get; set; }
+
+		[Export ("setCrosshairColorRed:green:blue:")]
+		void SetCrosshairColor (float redComponent, float greenComponent, float blueComponent);
+
+		[Export ("renderCrosshairsFromArray:count:frameTime:")]
+		void RenderCrosshairs (IntPtr crosshairCoordinates, uint numberOfCrosshairs, CMTime frameTime);
+	}
+
+	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
+	public partial interface GPUImageDilationFilter
+	{
+		[Export ("initWithRadius:")]
+		IntPtr Constructor (uint dilationRadius);
+	}
+
+	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
+	public partial interface GPUImageRgbDilationFilter
+	{
+		[Export ("initWithRadius:")]
+		IntPtr Constructor (uint dilationRadius);
+	}
+
+	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
+	public partial interface GPUImageErosionFilter
+	{
+		[Export ("initWithRadius:")]
+		IntPtr Constructor (uint erosionRadius);
+	}
+
+	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
+	public partial interface GPUImageRgbErosionFilter
+	{
+		[Export ("initWithRadius:")]
+		IntPtr Constructor (uint erosionRadius);
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageOpeningFilter
+	{
+		[Export ("verticalTexelSpacing")]
+		float VerticalTexelSpacing { get; set; }
+
+		[Export ("horizontalTexelSpacing")]
+		float HorizontalTexelSpacing { get; set; }
+
+		[Export ("initWithRadius:")]
+		IntPtr Constructor (uint radius);
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageRgbOpeningFilter
+	{
+		[Export ("initWithRadius:")]
+		IntPtr Constructor (uint radius);
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageClosingFilter
+	{
+		[Export ("verticalTexelSpacing")]
+		float VerticalTexelSpacing { get; set; }
+
+		[Export ("horizontalTexelSpacing")]
+		float HorizontalTexelSpacing { get; set; }
+
+		[Export ("initWithRadius:")]
+		IntPtr Constructor (uint radius);
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageRgbClosingFilter
+	{
+		[Export ("initWithRadius:")]
+		IntPtr Constructor (uint radius);
+	}
+
+	[BaseType (typeof (GPUImage3x3TextureSamplingFilter))]
+	public partial interface GPUImageLocalBinaryPatternFilter
+	{
+		[Export ("initWithRadius:")]
+		IntPtr Constructor (uint radius);
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageLowPassFilter
+	{
+		[Export ("filterStrength")]
+		float FilterStrength { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageHighPassFilter
+	{
+		[Export ("filterStrength")]
+		float FilterStrength { get; set; }
+	}
+
+	public delegate void MotionDetectionCallback(PointF motionCentroid, float motionIntensity, CMTime frameTime);
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageMotionDetector
+	{
+		[Export ("lowPassFilterStrength")]
+		float LowPassFilterStrength { get; set; }
+
+		[Export ("motionDetectionBlock", ArgumentSemantic.Copy)]
+		MotionDetectionCallback Delegate { get; set; }
+	}
+
+	public delegate void LinesDetectedCallback(IntPtr lineArray, uint linesDetected, CMTime frameTime);
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageHoughTransformLineDetector
+	{
+		[Export ("edgeThreshold")]
+		float EdgeThreshold { get; set; }
+
+		[Export ("lineDetectionThreshold")]
+		float LineDetectionThreshold { get; set; }
+
+		[Export ("linesDetectedBlock", ArgumentSemantic.Copy)]
+		LinesDetectedCallback LinesDetected { get; set; }
+
+		[Export ("intermediateImages", ArgumentSemantic.Retain)]
+		NSMutableArray IntermediateImages { get; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageLineGenerator
+	{
+		[Export ("lineWidth")]
+		float LineWidth { get; set; }
+
+		[Export ("setLineColorRed:green:blue:")]
+		void SetLineColor (float redComponent, float greenComponent, float blueComponent);
+
+		[Export ("renderLinesFromArray:count:frameTime:")]
+		void RenderLines (IntPtr lineSlopeAndIntercepts, uint numberOfLines, CMTime frameTime);
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageMotionBlurFilter
+	{
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+
+		[Export ("blurAngle")]
+		float BlurAngle { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageZoomBlurFilter
+	{
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+
+		[Export ("blurCenter")]
+		PointF BlurCenter { get; set; }
+	}
 }
 
