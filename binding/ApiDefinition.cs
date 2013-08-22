@@ -672,5 +672,88 @@ namespace MonoTouch.GpuImage
 		[Export ("setColorRed:green:blue:alpha:")]
 		void SetColor (float redComponent, float greenComponent, float blueComponent, float alphaComponent);
 	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageLuminanceThresholdFilter
+	{
+		[Export ("threshold")]
+		float Threshold { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageAdaptiveThresholdFilter
+	{
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageAverageLuminanceThresholdFilter
+	{
+		[Export ("thresholdMultiplier")]
+		float ThresholdMultiplier { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageHistogramFilter
+	{
+		[Export ("downsamplingFactor")]
+		uint DownsamplingFactor { get; set; }
+
+		[Export ("initWithHistogramType:")]
+		IntPtr Constructor (GPUImageHistogramType newHistogramType);
+
+		[Export ("initializeSecondaryAttributes")]
+		void InitializeSecondaryAttributes ();
+
+		[Export ("generatePointCoordinates")]
+		void GeneratePointCoordinates ();
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageHistogramGenerator
+	{
+	}
+
+	public delegate void ColorAverageProcessingFinishedCallback(float redComponent, float greenComponent, float blueComponent, float alphaComponent, CMTime frameTime);
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageAverageColor
+	{
+		[Export ("colorAverageProcessingFinishedBlock", ArgumentSemantic.Copy)]
+		ColorAverageProcessingFinishedCallback ColorAverageProcessingFinished { get; set; }
+
+		[Export ("extractAverageColorAtFrameTime:")]
+		void ExtractAverageColor (CMTime frameTime);
+	}
+
+	public delegate void LuminosityProcessingFinishedCallback(float luminosity, CMTime frameTime);
+
+	[BaseType (typeof (GPUImageAverageColor))]
+	public partial interface GPUImageLuminosity
+	{
+		[Export ("luminosityProcessingFinishedBlock", ArgumentSemantic.Copy)]
+		LuminosityProcessingFinishedCallback LuminosityProcessingFinished { get; set; }
+
+		[Export ("extractLuminosityAtFrameTime:")]
+		void ExtractLuminosity (CMTime frameTime);
+
+		[Export ("initializeSecondaryAttributes")]
+		void InitializeSecondaryAttributes ();
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageChromaKeyFilter
+	{
+		[Export ("thresholdSensitivity")]
+		float ThresholdSensitivity { get; set; }
+
+		[Export ("smoothing")]
+		float Smoothing { get; set; }
+
+		[Export ("setColorToReplaceRed:green:blue:")]
+		void SetColorToReplace (float redComponent, float greenComponent, float blueComponent);
+	}
+
 }
 

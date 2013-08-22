@@ -60,5 +60,14 @@ namespace MonoTouch.GpuImage
 		public GPUVector4 Three;
 		public GPUVector4 Four;
 	};
+
+	public enum GPUImageHistogramType
+	{
+		Red,
+		Green,
+		Blue,
+		RGB,
+		Luminance
+	}
 }
 
