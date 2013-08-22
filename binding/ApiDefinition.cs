@@ -120,7 +120,7 @@ namespace MonoTouch.GpuImage
 		void SetBackgroundColor(float redComponent, float greenComponent, float blueComponent, float alphaComponent);
 	}
 
-	public delegate void FrameProcessingCompletedHandler(GPUImageOutput sender, CMTime frameTime);
+	public delegate void GPUImageFrameProcessingCompletedCallback(GPUImageOutput sender, CMTime frameTime);
 
 	[BaseType (typeof (NSObject))]
 	public partial interface GPUImageOutput : GPUImageTextureDelegate
@@ -137,8 +137,8 @@ namespace MonoTouch.GpuImage
 		[Export ("targetToIgnoreForUpdates", ArgumentSemantic.Assign)]
 		NSObject TargetToIgnoreForUpdates { get; set; }		//todo: should be GPUImageInput
 
-		[Export ("frameProcessingCompletionBlock", ArgumentSemantic.Copy)]
-		FrameProcessingCompletedHandler FrameProcessingCompletionBlock { get; set; }	//todo: map this to event
+		[Export ("frameProcessingCompletionBlock", ArgumentSemantic.Copy), NullAllowed]
+		GPUImageFrameProcessingCompletedCallback FrameProcessingCompletionBlock { get; set; }	//todo: map this to event
 
 		[Export ("enabled")]
 		bool Enabled { get; set; }
@@ -287,7 +287,7 @@ namespace MonoTouch.GpuImage
 		[Export ("horizontallyMirrorRearFacingCamera")]
 		bool HorizontallyMirrorRearFacingCamera { get; set; }
 
-		[Export ("delegate", ArgumentSemantic.Assign)]
+		[Export ("delegate", ArgumentSemantic.Assign), NullAllowed]
 		GPUImageVideoCameraDelegate Delegate { get; set; }
 
 		[Export ("initWithSessionPreset:cameraPosition:")]
@@ -380,22 +380,22 @@ namespace MonoTouch.GpuImage
 		[Export ("shouldInvalidateAudioSampleWhenDone")]
 		bool ShouldInvalidateAudioSampleWhenDone { get; set; }
 
-		[Export ("completionBlock", ArgumentSemantic.Copy)]
+		[Export ("completionBlock", ArgumentSemantic.Copy), NullAllowed]
 		NSAction CompletionBlock { get; set; }
 
-		[Export ("failureBlock", ArgumentSemantic.Copy)]
+		[Export ("failureBlock", ArgumentSemantic.Copy), NullAllowed]
 		NSErrorHandler FailureBlock { get; set; }
 
-		[Export ("delegate", ArgumentSemantic.Assign)]
+		[Export ("delegate", ArgumentSemantic.Assign), NullAllowed]
 		GPUImageMovieWriterDelegate Delegate { get; set; }
 
 		[Export ("encodingLiveVideo")]
 		bool EncodingLiveVideo { get; set; }
 
-		[Export ("videoInputReadyCallback", ArgumentSemantic.Copy)]
+		[Export ("videoInputReadyCallback", ArgumentSemantic.Copy), NullAllowed]
 		NSAction VideoInputReadyCallback { get; set; }
 
-		[Export ("audioInputReadyCallback", ArgumentSemantic.Copy)]
+		[Export ("audioInputReadyCallback", ArgumentSemantic.Copy), NullAllowed]
 		NSAction AudioInputReadyCallback { get; set; }
 
 		//[Export ("enabled")]
@@ -458,7 +458,7 @@ namespace MonoTouch.GpuImage
 		[Export ("shouldRepeat")]
 		bool ShouldRepeat { get; set; }
 
-		[Export ("delegate", ArgumentSemantic.Assign)]
+		[Export ("delegate", ArgumentSemantic.Assign), NullAllowed]
 		GPUImageMovieDelegate Delegate { get; set; }
 
 		[Export ("initWithAsset:")]
@@ -753,16 +753,16 @@ namespace MonoTouch.GpuImage
 	[BaseType (typeof (GPUImageFilter))]
 	public partial interface GPUImageToneCurveFilter
 	{
-		[Export ("redControlPoints", ArgumentSemantic.Copy)]
+		[Export ("redControlPoints", ArgumentSemantic.Copy), NullAllowed]
 		NSObject [] RedControlPoints { get; set; }
 
-		[Export ("greenControlPoints", ArgumentSemantic.Copy)]
+		[Export ("greenControlPoints", ArgumentSemantic.Copy), NullAllowed]
 		NSObject [] GreenControlPoints { get; set; }
 
-		[Export ("blueControlPoints", ArgumentSemantic.Copy)]
+		[Export ("blueControlPoints", ArgumentSemantic.Copy), NullAllowed]
 		NSObject [] BlueControlPoints { get; set; }
 
-		[Export ("rgbCompositeControlPoints", ArgumentSemantic.Copy)]
+		[Export ("rgbCompositeControlPoints", ArgumentSemantic.Copy), NullAllowed]
 		NSObject [] RgbCompositeControlPoints { get; set; }
 
 		[Export ("initWithACVData:")]
@@ -949,25 +949,25 @@ namespace MonoTouch.GpuImage
 	{
 	}
 
-	public delegate void ColorAverageProcessingFinishedCallback(float redComponent, float greenComponent, float blueComponent, float alphaComponent, CMTime frameTime);
+	public delegate void GPUImageColorAverageProcessingFinishedCallback(float redComponent, float greenComponent, float blueComponent, float alphaComponent, CMTime frameTime);
 
 	[BaseType (typeof (GPUImageFilter))]
 	public partial interface GPUImageAverageColor
 	{
-		[Export ("colorAverageProcessingFinishedBlock", ArgumentSemantic.Copy)]
-		ColorAverageProcessingFinishedCallback ColorAverageProcessingFinished { get; set; }
+		[Export ("colorAverageProcessingFinishedBlock", ArgumentSemantic.Copy), NullAllowed]
+		GPUImageColorAverageProcessingFinishedCallback ColorAverageProcessingFinished { get; set; }
 
 		[Export ("extractAverageColorAtFrameTime:")]
 		void ExtractAverageColor (CMTime frameTime);
 	}
 
-	public delegate void LuminosityProcessingFinishedCallback(float luminosity, CMTime frameTime);
+	public delegate void GPUImageLuminosityProcessingFinishedCallback(float luminosity, CMTime frameTime);
 
 	[BaseType (typeof (GPUImageAverageColor))]
 	public partial interface GPUImageLuminosity
 	{
-		[Export ("luminosityProcessingFinishedBlock", ArgumentSemantic.Copy)]
-		LuminosityProcessingFinishedCallback LuminosityProcessingFinished { get; set; }
+		[Export ("luminosityProcessingFinishedBlock", ArgumentSemantic.Copy), NullAllowed]
+		GPUImageLuminosityProcessingFinishedCallback LuminosityProcessingFinished { get; set; }
 
 		[Export ("extractLuminosityAtFrameTime:")]
 		void ExtractLuminosity (CMTime frameTime);
@@ -1207,7 +1207,7 @@ namespace MonoTouch.GpuImage
 		float LowerThreshold { get; set; }
 	}
 
-	public delegate void CornersDetectedCallback(IntPtr cornerArray, uint cornersDetected, CMTime frameTime);
+	public delegate void GPUImageCornersDetectedCallback(IntPtr cornerArray, uint cornersDetected, CMTime frameTime);
 
 	[BaseType (typeof (GPUImageFilterGroup))]
 	public partial interface GPUImageHarrisCornerDetectionFilter
@@ -1221,8 +1221,8 @@ namespace MonoTouch.GpuImage
 		[Export ("threshold")]
 		float Threshold { get; set; }
 
-		[Export ("cornersDetectedBlock", ArgumentSemantic.Copy)]
-		CornersDetectedCallback CornersDetected { get; set; }
+		[Export ("cornersDetectedBlock", ArgumentSemantic.Copy), NullAllowed]
+		GPUImageCornersDetectedCallback CornersDetected { get; set; }
 
 		[Export ("intermediateImages", ArgumentSemantic.Retain)]
 		NSMutableArray IntermediateImages { get; }
@@ -1353,7 +1353,7 @@ namespace MonoTouch.GpuImage
 		float FilterStrength { get; set; }
 	}
 
-	public delegate void MotionDetectionCallback(PointF motionCentroid, float motionIntensity, CMTime frameTime);
+	public delegate void GPUImageMotionDetectionCallback(PointF motionCentroid, float motionIntensity, CMTime frameTime);
 
 	[BaseType (typeof (GPUImageFilterGroup))]
 	public partial interface GPUImageMotionDetector
@@ -1361,11 +1361,11 @@ namespace MonoTouch.GpuImage
 		[Export ("lowPassFilterStrength")]
 		float LowPassFilterStrength { get; set; }
 
-		[Export ("motionDetectionBlock", ArgumentSemantic.Copy)]
-		MotionDetectionCallback Delegate { get; set; }
+		[Export ("motionDetectionBlock", ArgumentSemantic.Copy), NullAllowed]
+		GPUImageMotionDetectionCallback Delegate { get; set; }
 	}
 
-	public delegate void LinesDetectedCallback(IntPtr lineArray, uint linesDetected, CMTime frameTime);
+	public delegate void GPUImageLinesDetectedCallback(IntPtr lineArray, uint linesDetected, CMTime frameTime);
 
 	[BaseType (typeof (GPUImageFilterGroup))]
 	public partial interface GPUImageHoughTransformLineDetector
@@ -1376,8 +1376,8 @@ namespace MonoTouch.GpuImage
 		[Export ("lineDetectionThreshold")]
 		float LineDetectionThreshold { get; set; }
 
-		[Export ("linesDetectedBlock", ArgumentSemantic.Copy)]
-		LinesDetectedCallback LinesDetected { get; set; }
+		[Export ("linesDetectedBlock", ArgumentSemantic.Copy), NullAllowed]
+		GPUImageLinesDetectedCallback LinesDetected { get; set; }
 
 		[Export ("intermediateImages", ArgumentSemantic.Retain)]
 		NSMutableArray IntermediateImages { get; }
