@@ -507,11 +507,11 @@ namespace MonoTouch.GpuImage
 		[Export ("initWithVertexShaderFromString:fragmentShaderFromString:")]
 		IntPtr Constructor (string vertexShader, string fragmentShader);
 
-		[Export ("initWithFragmentShaderFromString:")]
-		IntPtr Constructor (string fragmentShader);
+		//[Export ("initWithFragmentShaderFromString:")]
+		//IntPtr Constructor (string fragmentShader);
 
-		//[Export ("initWithFragmentShaderFromFile:")]
-		//IntPtr Constructor (string fragmentShaderFilename);
+		[Export ("initWithFragmentShaderFromFile:")]
+		IntPtr Constructor (string fragmentShaderFilename);
 
 		[Export ("initializeAttributes")]
 		void InitializeAttributes ();
@@ -614,6 +614,29 @@ namespace MonoTouch.GpuImage
 
 		[Export ("uniformsForProgramAtIndex")]
 		void SetUniformsForProgram (uint programIndex);
+	}
+
+	[BaseType (typeof (GPUImageOutput))]
+	public partial interface GPUImageUIElement
+	{
+		[Export ("initWithView:")]
+		IntPtr Constructor (UIView inputView);
+
+		[Export ("initWithLayer:")]
+		IntPtr Constructor (CALayer inputLayer);
+
+		[Export ("layerSizeInPixels")]
+		SizeF LayerSizeInPixels { get; }
+
+		[Export ("update")]
+		void Update ();
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageBuffer
+	{
+		[Export ("bufferSize")]
+		uint BufferSize { get; set; }
 	}
 
 	[BaseType (typeof (GPUImageFilter))]
@@ -750,6 +773,7 @@ namespace MonoTouch.GpuImage
 		float Hue { get; set; }
 	}
 
+	//todo: switch to strongly typed PointF arrays
 	[BaseType (typeof (GPUImageFilter))]
 	public partial interface GPUImageToneCurveFilter
 	{
@@ -1272,7 +1296,7 @@ namespace MonoTouch.GpuImage
 	}
 
 	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
-	public partial interface GPUImageRgbDilationFilter
+	public partial interface GPUImageRGBDilationFilter
 	{
 		[Export ("initWithRadius:")]
 		IntPtr Constructor (uint dilationRadius);
@@ -1286,7 +1310,7 @@ namespace MonoTouch.GpuImage
 	}
 
 	[BaseType (typeof (GPUImageTwoPassTextureSamplingFilter))]
-	public partial interface GPUImageRgbErosionFilter
+	public partial interface GPUImageRGBErosionFilter
 	{
 		[Export ("initWithRadius:")]
 		IntPtr Constructor (uint erosionRadius);
@@ -1306,7 +1330,7 @@ namespace MonoTouch.GpuImage
 	}
 
 	[BaseType (typeof (GPUImageFilterGroup))]
-	public partial interface GPUImageRgbOpeningFilter
+	public partial interface GPUImageRGBOpeningFilter
 	{
 		[Export ("initWithRadius:")]
 		IntPtr Constructor (uint radius);
@@ -1326,7 +1350,7 @@ namespace MonoTouch.GpuImage
 	}
 
 	[BaseType (typeof (GPUImageFilterGroup))]
-	public partial interface GPUImageRgbClosingFilter
+	public partial interface GPUImageRGBClosingFilter
 	{
 		[Export ("initWithRadius:")]
 		IntPtr Constructor (uint radius);
@@ -1790,8 +1814,8 @@ namespace MonoTouch.GpuImage
 		[Export ("colorOn")]
 		bool ColorOn { get; set; }
 
-		[Export ("setTileSet")]
-		void SetTileSet (string tileSet);
+		[Export ("tileSet")]
+		string TileSet { set; }
 	}
 
 	[BaseType (typeof (GPUImageFilter))]
@@ -1806,6 +1830,34 @@ namespace MonoTouch.GpuImage
 	{
 		[Export ("sizeInPixels")]
 		SizeF SizeInPixels { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImagePixellatePositionFilter
+	{
+		[Export ("fractionalWidthOfAPixel")]
+		float FractionalWidthOfAPixel { get; set; }
+
+		[Export ("center")]
+		PointF Center { get; set; }
+
+		[Export ("radius")]
+		float Radius { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageWhiteBalanceFilter
+	{
+		[Export ("temperature")]
+		int Temperature { get; set; }
+
+		[Export ("tint")]
+		int Tint { get; set; }
+	}
+
+	[BaseType (typeof (GPUImage3x3ConvolutionFilter))]
+	public partial interface GPUImageLaplacianFilter
+	{
 	}
 }
 
