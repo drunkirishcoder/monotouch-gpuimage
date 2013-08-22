@@ -1415,5 +1415,162 @@ namespace MonoTouch.GpuImage
 		[Export ("blurCenter")]
 		PointF BlurCenter { get; set; }
 	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageChromaKeyBlendFilter
+	{
+		[Export ("thresholdSensitivity")]
+		float ThresholdSensitivity { get; set; }
+
+		[Export ("smoothing")]
+		float Smoothing { get; set; }
+
+		[Export ("setColorToReplaceRed:green:blue:")]
+		void SetColorToReplace (float redComponent, float greenComponent, float blueComponent);
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageDissolveBlendFilter
+	{
+		[Export ("mix")]
+		float Mix { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageMultiplyBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageAddBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageSubtractBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageDivideBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageOverlayBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageDarkenBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageLightenBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageColorBurnBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageColorDodgeBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageScreenBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageExclusionBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageDifferenceBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageHardLightBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageSoftLightBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageAlphaBlendFilter
+	{
+		[Export ("mix")]
+		float Mix { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageSourceOverBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageNormalBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageColorBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageHueBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageSaturationBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageLuminosityBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageLinearBurnBlendFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageTwoInputCrossTextureSamplingFilter
+	{
+		[Export ("texelWidth")]
+		float TexelWidth { get; set; }
+
+		[Export ("texelHeight")]
+		float TexelHeight { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageTwoInputCrossTextureSamplingFilter))]
+	public partial interface GPUImagePoissonBlendFilter
+	{
+		[Export ("mix")]
+		float Mix { get; set; }
+
+		[Export ("numIterations")]
+		uint NumIterations { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageMaskFilter
+	{
+	}
 }
 
