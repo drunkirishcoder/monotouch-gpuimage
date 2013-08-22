@@ -496,11 +496,6 @@ namespace MonoTouch.GpuImage
 		float EdgeStrength { get; set; }
 	}
 
-	[BaseType (typeof (GPUImageColorMatrixFilter))]
-	public partial interface GPUImageSepiaFilter
-	{
-	}
-
 	[BaseType (typeof (GPUImageFilter))]
 	public partial interface GPUImageRGBFilter
 	{
@@ -565,6 +560,31 @@ namespace MonoTouch.GpuImage
 	}
 
 	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageHighlightShadowFilter
+	{
+		[Export ("shadows")]
+		float Shadows { get; set; }
+
+		[Export ("highlights")]
+		float Highlights { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageTwoInputFilter
+	{
+		[Export ("disableFirstFrameCheck")]
+		void DisableFirstFrameCheck ();
+
+		[Export ("disableSecondFrameCheck")]
+		void DisableSecondFrameCheck ();
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageLookupFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
 	public partial interface GPUImageGrayscaleFilter
 	{
 	}
@@ -585,6 +605,40 @@ namespace MonoTouch.GpuImage
 	}
 
 	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageColorInvertFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageMonochromeFilter
+	{
+		[Export ("intensity")]
+		float Intensity { get; set; }
+
+		[Export ("color")]
+		GPUVector4 Color { get; set; }
+
+		[Export ("setColorRed:green:blue:")]
+		void SetColor (float redComponent, float greenComponent, float blueComponent);
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageFalseColorFilter
+	{
+		[Export ("firstColor")]
+		GPUVector4 FirstColor { get; set; }
+
+		[Export ("secondColor")]
+		GPUVector4 SecondColor { get; set; }
+
+		[Export ("setFirstColorRed:green:blue:")]
+		void SetFirstColor (float redComponent, float greenComponent, float blueComponent);
+
+		[Export ("setSecondColorRed:green:blue:")]
+		void SetSecondColor (float redComponent, float greenComponent, float blueComponent);
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
 	public partial interface GPUImageHazeFilter
 	{
 		[Export ("distance")]
@@ -592,6 +646,31 @@ namespace MonoTouch.GpuImage
 
 		[Export ("slope")]
 		float Slope { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageColorMatrixFilter))]
+	public partial interface GPUImageSepiaFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageOpacityFilter
+	{
+		[Export ("opacity")]
+		float Opacity { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageSolidColorGenerator
+	{
+		[Export ("color")]
+		GPUVector4 Color { get; set; }
+
+		[Export ("useExistingAlpha")]
+		bool UseExistingAlpha { get; set; }
+
+		[Export ("setColorRed:green:blue:alpha:")]
+		void SetColor (float redComponent, float greenComponent, float blueComponent, float alphaComponent);
 	}
 }
 
