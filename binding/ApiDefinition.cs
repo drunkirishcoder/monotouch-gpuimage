@@ -411,6 +411,69 @@ namespace MonoTouch.GpuImage
 	}
 
 	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageBrightnessFilter
+	{
+		[Export ("brightness")]
+		float Brightness { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageExposureFilter
+	{
+		[Export ("exposure")]
+		float Exposure { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageContrastFilter
+	{
+		[Export ("contrast")]
+		float Contrast { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageSaturationFilter
+	{
+		[Export ("saturation")]
+		float Saturation { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageGammaFilter
+	{
+		[Export ("gamma")]
+		float Gamma { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageLevelsFilter
+	{
+		[Export ("setRedMin:gamma:max:minOut:maxOut:")]
+		void SetRed (float min, float mid, float max, float minOut, float maxOut);
+
+		[Export ("setRedMin:gamma:max:")]
+		void SetRed (float min, float mid, float max);
+
+		[Export ("setGreenMin:gamma:max:minOut:maxOut:")]
+		void SetGreen (float min, float mid, float max, float minOut, float maxOut);
+
+		[Export ("setGreenMin:gamma:max:")]
+		void SetGreen (float min, float mid, float max);
+
+		[Export ("setBlueMin:gamma:max:minOut:maxOut:")]
+		void SetBlue (float min, float mid, float max, float minOut, float maxOut);
+
+		[Export ("setBlueMin:gamma:max:")]
+		void SetBlue (float min, float mid, float max);
+
+		[Export ("setMin:gamma:max:minOut:maxOut:")]
+		void SetAll (float min, float mid, float max, float minOut, float maxOut);
+
+		[Export ("setMin:gamma:max:")]
+		void SetAll (float min, float mid, float max);
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
 	public partial interface GPUImageColorMatrixFilter
 	{
 		[Export ("colorMatrix")]
@@ -436,6 +499,69 @@ namespace MonoTouch.GpuImage
 	[BaseType (typeof (GPUImageColorMatrixFilter))]
 	public partial interface GPUImageSepiaFilter
 	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageRGBFilter
+	{
+		[Export ("red")]
+		float Red { get; set; }
+
+		[Export ("green")]
+		float Green { get; set; }
+
+		[Export ("blue")]
+		float Blue { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageHueFilter
+	{
+		[Export ("hue")]
+		float Hue { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageToneCurveFilter
+	{
+		[Export ("redControlPoints", ArgumentSemantic.Copy)]
+		NSObject [] RedControlPoints { get; set; }
+
+		[Export ("greenControlPoints", ArgumentSemantic.Copy)]
+		NSObject [] GreenControlPoints { get; set; }
+
+		[Export ("blueControlPoints", ArgumentSemantic.Copy)]
+		NSObject [] BlueControlPoints { get; set; }
+
+		[Export ("rgbCompositeControlPoints", ArgumentSemantic.Copy)]
+		NSObject [] RgbCompositeControlPoints { get; set; }
+
+		[Export ("initWithACVData:")]
+		IntPtr Constructor (NSData data);
+
+		[Export ("initWithACV:")]
+		IntPtr Constructor (string curveFilename);
+
+		[Export ("initWithACVURL:")]
+		IntPtr Constructor (NSUrl curveFileUrl);
+
+		[Export ("pointsWithACV")]
+		void SetPoints (string curveFilename);
+
+		[Export ("pointsWithACVURL")]
+		void SetPoints (NSUrl curveFileUrl);
+
+		[Export ("getPreparedSplineCurve:")]
+		NSMutableArray GetPreparedSplineCurve (NSObject [] points);
+
+		[Export ("splineCurve:")]
+		NSMutableArray GetSplineCurve (NSObject [] points);
+
+		[Export ("secondDerivative:")]
+		NSMutableArray GetSecondDerivative (NSObject [] cgPoints);
+
+		[Export ("updateToneCurveTexture")]
+		void UpdateToneCurveTexture ();
 	}
 
 	[BaseType (typeof (GPUImageFilter))]
