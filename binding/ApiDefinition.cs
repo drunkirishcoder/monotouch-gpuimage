@@ -7,6 +7,7 @@ using MonoTouch.CoreMedia;
 using MonoTouch.CoreVideo;
 using MonoTouch.CoreGraphics;
 using MonoTouch.CoreAnimation;
+using MonoTouch.AVFoundation;
 
 namespace MonoTouch.GpuImage
 {
@@ -130,8 +131,8 @@ namespace MonoTouch.GpuImage
 		[Export ("shouldIgnoreUpdatesToThisTarget")]
 		bool ShouldIgnoreUpdatesToThisTarget { get; set; }
 
-		//[Export ("audioEncodingTarget", ArgumentSemantic.Retain)]
-		//GPUImageMovieWriter AudioEncodingTarget { get; set; }
+		[Export ("audioEncodingTarget", ArgumentSemantic.Retain), NullAllowed]
+		GPUImageMovieWriter AudioEncodingTarget { get; set; }
 
 		[Export ("targetToIgnoreForUpdates", ArgumentSemantic.Assign)]
 		NSObject TargetToIgnoreForUpdates { get; set; }		//todo: should be GPUImageInput
@@ -244,6 +245,251 @@ namespace MonoTouch.GpuImage
 
 		[Export ("processImageWithCompletionHandler:")]
 		bool ProcessImage (NSAction completion);
+	}
+
+	[Model, BaseType (typeof (NSObject))]
+	public partial interface GPUImageVideoCameraDelegate
+	{
+		[Export ("willOutputSampleBuffer:")]
+		void WillOutputSampleBuffer (CMSampleBuffer sampleBuffer);
+	}
+
+	[BaseType (typeof (GPUImageOutput))]
+	public partial interface GPUImageVideoCamera //: AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate
+	{
+		[Export ("captureSession", ArgumentSemantic.Retain)]
+		AVCaptureSession CaptureSession { get; }
+
+		[Export ("captureSessionPreset", ArgumentSemantic.Copy)]
+		string CaptureSessionPreset { get; set; }
+
+		[Export ("frameRate")]
+		int FrameRate { get; set; }
+
+		[Export ("frontFacingCameraPresent")]
+		bool FrontFacingCameraPresent { [Bind ("isFrontFacingCameraPresent")] get; }
+
+		[Export ("backFacingCameraPresent")]
+		bool BackFacingCameraPresent { [Bind ("isBackFacingCameraPresent")] get; }
+
+		[Export ("runBenchmark")]
+		bool RunBenchmark { get; set; }
+
+		[Export ("inputCamera")]
+		AVCaptureDevice InputCamera { get; }
+
+		[Export ("outputImageOrientation")]
+		UIInterfaceOrientation OutputImageOrientation { get; set; }
+
+		[Export ("horizontallyMirrorFrontFacingCamera")]
+		bool HorizontallyMirrorFrontFacingCamera { get; set; }
+
+		[Export ("horizontallyMirrorRearFacingCamera")]
+		bool HorizontallyMirrorRearFacingCamera { get; set; }
+
+		[Export ("delegate", ArgumentSemantic.Assign)]
+		GPUImageVideoCameraDelegate Delegate { get; set; }
+
+		[Export ("initWithSessionPreset:cameraPosition:")]
+		IntPtr Constructor (string sessionPreset, AVCaptureDevicePosition cameraPosition);
+
+		[Export ("removeInputsAndOutputs")]
+		void RemoveInputsAndOutputs ();
+
+		[Export ("startCameraCapture")]
+		void StartCameraCapture ();
+
+		[Export ("stopCameraCapture")]
+		void StopCameraCapture ();
+
+		[Export ("pauseCameraCapture")]
+		void PauseCameraCapture ();
+
+		[Export ("resumeCameraCapture")]
+		void ResumeCameraCapture ();
+
+		[Export ("processVideoSampleBuffer:")]
+		void ProcessVideoSampleBuffer (CMSampleBuffer sampleBuffer);
+
+		[Export ("processAudioSampleBuffer:")]
+		void ProcessAudioSampleBuffer (CMSampleBuffer sampleBuffer);
+
+		[Export ("cameraPosition")]
+		AVCaptureDevicePosition CameraPosition { get; }
+
+		[Export ("videoCaptureConnection")]
+		AVCaptureConnection VideoCaptureConnection { get; }
+
+		[Export ("rotateCamera")]
+		void RotateCamera ();
+
+		[Export ("averageFrameDurationDuringCapture")]
+		float AverageFrameDurationDuringCapture { get; }
+
+		//[Export ("captureOutput:didOutputSampleBuffer:fromConnection:")]
+		//void DidOutputSampleBuffer(AVCaptureOutput captureOutput, CMSampleBuffer sampleBuffer, AVCaptureConnection connection);
+	}
+
+	public delegate void GPUImageCaptureCompletionUIImageHandler(UIImage processedImage, NSError error);
+
+	public delegate void GPUImageCaptureCompletionNSDataHandler(NSData processedImage, NSError error);
+
+	[BaseType (typeof (GPUImageVideoCamera))]
+	public partial interface GPUImageStillCamera
+	{
+		[Export ("jpegCompressionQuality")]
+		float JpegCompressionQuality { get; set; }
+
+		[Export ("currentCaptureMetadata")]
+		NSDictionary CurrentCaptureMetadata { get; }
+
+		//[Export ("capturePhotoAsSampleBufferWithCompletionHandler:")]
+		//void CapturePhotoAsSampleBuffer (AVCaptureCompletionHandler completionHandler);
+
+		[Export ("capturePhotoAsImageProcessedUpToFilter:withCompletionHandler:")]
+		void CapturePhotoAsImage (GPUImageOutput finalFilterInChain, GPUImageCaptureCompletionUIImageHandler completionHandler);
+
+		[Export ("capturePhotoAsJPEGProcessedUpToFilter:withCompletionHandler:")]
+		void CapturePhotoAsJpeg (GPUImageOutput finalFilterInChain, GPUImageCaptureCompletionNSDataHandler completionHandler);
+
+		[Export ("capturePhotoAsPNGProcessedUpToFilter:withCompletionHandler:")]
+		void CapturePhotoAsPng (GPUImageOutput finalFilterInChain, GPUImageCaptureCompletionNSDataHandler completionHandler);
+	}
+
+	[Model, BaseType (typeof (NSObject))]
+	public partial interface GPUImageMovieWriterDelegate
+	{
+		[Export ("movieRecordingCompleted")]
+		void MovieRecordingCompleted ();
+
+		[Export ("movieRecordingFailedWithError:")]
+		void MovieRecordingFailed (NSError error);
+	}
+
+	public delegate void NSErrorHandler(NSError error);
+
+	[BaseType (typeof (NSObject))]
+	public partial interface GPUImageMovieWriter : GPUImageInput
+	{
+		[Export ("hasAudioTrack")]
+		bool HasAudioTrack { get; set; }
+
+		[Export ("shouldPassthroughAudio")]
+		bool ShouldPassthroughAudio { get; set; }
+
+		[Export ("shouldInvalidateAudioSampleWhenDone")]
+		bool ShouldInvalidateAudioSampleWhenDone { get; set; }
+
+		[Export ("completionBlock", ArgumentSemantic.Copy)]
+		NSAction CompletionBlock { get; set; }
+
+		[Export ("failureBlock", ArgumentSemantic.Copy)]
+		NSErrorHandler FailureBlock { get; set; }
+
+		[Export ("delegate", ArgumentSemantic.Assign)]
+		GPUImageMovieWriterDelegate Delegate { get; set; }
+
+		[Export ("encodingLiveVideo")]
+		bool EncodingLiveVideo { get; set; }
+
+		[Export ("videoInputReadyCallback", ArgumentSemantic.Copy)]
+		NSAction VideoInputReadyCallback { get; set; }
+
+		[Export ("audioInputReadyCallback", ArgumentSemantic.Copy)]
+		NSAction AudioInputReadyCallback { get; set; }
+
+		//[Export ("enabled")]
+		//bool Enabled { get; set; }
+
+		[Export ("initWithMovieURL:size:")]
+		IntPtr Constructor (NSUrl newMovieURL, SizeF newSize);
+
+		[Export ("initWithMovieURL:size:fileType:outputSettings:")]
+		IntPtr Constructor (NSUrl newMovieURL, SizeF newSize, string newFileType, NSMutableDictionary outputSettings);
+
+		[Export ("setHasAudioTrack:audioSettings:")]
+		void SetHasAudioTrack (bool hasAudioTrack, NSDictionary audioOutputSettings);
+
+		[Export ("startRecording")]
+		void StartRecording ();
+
+		[Export ("startRecordingInOrientation:")]
+		void StartRecordingInOrientation (CGAffineTransform orientationTransform);
+
+		[Export ("finishRecording")]
+		void FinishRecording ();
+
+		[Export ("finishRecordingWithCompletionHandler:")]
+		void FinishRecordingWithCompletionHandler (NSAction handler);
+
+		[Export ("cancelRecording")]
+		void CancelRecording ();
+
+		[Export ("processAudioBuffer:")]
+		void ProcessAudioBuffer (CMSampleBuffer audioBuffer);
+
+		[Export ("enableSynchronizationCallbacks")]
+		void EnableSynchronizationCallbacks ();
+	}
+
+	// todo: change to event
+	[Model, BaseType (typeof (NSObject))]
+	public partial interface GPUImageMovieDelegate
+	{
+		[Export ("didCompletePlayingMovie")]
+		void DidCompletePlayingMovie ();
+	}
+
+	[BaseType (typeof (GPUImageOutput))]
+	public partial interface GPUImageMovie
+	{
+		[Export ("asset", ArgumentSemantic.Retain)]
+		AVAsset Asset { get; set; }
+
+		[Export ("url", ArgumentSemantic.Retain)]
+		NSUrl Url { get; set; }
+
+		[Export ("runBenchmark")]
+		bool RunBenchmark { get; set; }
+
+		[Export ("playAtActualSpeed")]
+		bool PlayAtActualSpeed { get; set; }
+
+		[Export ("shouldRepeat")]
+		bool ShouldRepeat { get; set; }
+
+		[Export ("delegate", ArgumentSemantic.Assign)]
+		GPUImageMovieDelegate Delegate { get; set; }
+
+		[Export ("initWithAsset:")]
+		IntPtr Constructor (AVAsset asset);
+
+		[Export ("initWithURL:")]
+		IntPtr Constructor (NSUrl url);
+
+		[Export ("textureCacheSetup")]
+		void TextureCacheSetup ();
+
+		[Export ("enableSynchronizedEncodingUsingMovieWriter:")]
+		void EnableSynchronizedEncodingUsingMovieWriter (GPUImageMovieWriter movieWriter);
+
+		[Export ("readNextVideoFrameFromOutput:")]
+		void ReadNextVideoFrameFromOutput (AVAssetReaderTrackOutput readerVideoTrackOutput);
+
+		[Export ("readNextAudioSampleFromOutput:")]
+		void ReadNextAudioSampleFromOutput (AVAssetReaderTrackOutput readerAudioTrackOutput);
+
+		[Export ("startProcessing")]
+		void StartProcessing ();
+
+		[Export ("endProcessing")]
+		void EndProcessing ();
+
+		[Export ("cancelProcessing")]
+		void CancelProcessing ();
+
+		[Export ("processMovieFrame:")]
+		void ProcessMovieFrame (CMSampleBuffer movieSampleBuffer);
 	}
 
 	[BaseType (typeof (GPUImageOutput))]

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoTouch.GpuImage", "bindi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoTouch.GpuImage.Samples.SimpleImageFilter", "samples\MonoTouch.GpuImage.Samples.SimpleImageFilter\MonoTouch.GpuImage.Samples.SimpleImageFilter.csproj", "{66C73A76-1A4A-471B-83C2-50FA8E0600FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoTouch.GpuImage.Samples.SimpleVideoFilter", "samples\MonoTouch.GpuImage.Samples.SimpleVideoFilter\MonoTouch.GpuImage.Samples.SimpleVideoFilter.csproj", "{7031D2B0-145F-441D-9B4A-D048A09952AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,22 @@ Global
 		{66C73A76-1A4A-471B-83C2-50FA8E0600FA}.Release|iPhone.Build.0 = Release|iPhone
 		{66C73A76-1A4A-471B-83C2-50FA8E0600FA}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{66C73A76-1A4A-471B-83C2-50FA8E0600FA}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Debug|iPhone.Build.0 = Debug|iPhone
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Release|iPhone.ActiveCfg = Release|iPhone
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Release|iPhone.Build.0 = Release|iPhone
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{7031D2B0-145F-441D-9B4A-D048A09952AE}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{796AAA2D-772C-4355-9B10-A0B03FB0EA01}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
 		{796AAA2D-772C-4355-9B10-A0B03FB0EA01}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
 		{796AAA2D-772C-4355-9B10-A0B03FB0EA01}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
@@ -51,6 +69,6 @@ Global
 		{796AAA2D-772C-4355-9B10-A0B03FB0EA01}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = samples\MonoTouch.GpuImage.Samples.SimpleImageFilter\MonoTouch.GpuImage.Samples.SimpleImageFilter.csproj
+		StartupItem = samples\MonoTouch.GpuImage.Samples.SimpleVideoFilter\MonoTouch.GpuImage.Samples.SimpleVideoFilter.csproj
 	EndGlobalSection
 EndGlobal
