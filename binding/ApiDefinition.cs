@@ -731,7 +731,7 @@ namespace MonoTouch.GpuImage
 	}
 
 	[BaseType (typeof (GPUImageFilter))]
-	public partial interface GPUImageRgbFilter
+	public partial interface GPUImageRGBFilter
 	{
 		[Export ("red")]
 		float Red { get; set; }
@@ -1571,6 +1571,241 @@ namespace MonoTouch.GpuImage
 	[BaseType (typeof (GPUImageTwoInputFilter))]
 	public partial interface GPUImageMaskFilter
 	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImagePixellateFilter
+	{
+		[Export ("fractionalWidthOfAPixel")]
+		float FractionalWidthOfAPixel { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImagePolarPixellateFilter
+	{
+		[Export ("center")]
+		PointF Center { get; set; }
+
+		[Export ("pixelSize")]
+		SizeF PixelSize { get; set; }
+	}
+
+	[BaseType (typeof (GPUImagePixellateFilter))]
+	public partial interface GPUImagePolkaDotFilter
+	{
+		[Export ("dotScaling")]
+		float DotScaling { get; set; }
+	}
+
+	[BaseType (typeof (GPUImagePixellateFilter))]
+	public partial interface GPUImageHalftoneFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageCrosshatchFilter
+	{
+		[Export ("crossHatchSpacing")]
+		float CrossHatchSpacing { get; set; }
+
+		[Export ("lineWidth")]
+		float LineWidth { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageSobelEdgeDetectionFilter))]
+	public partial interface GPUImageSketchFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageThresholdEdgeDetectionFilter))]
+	public partial interface GPUImageThresholdSketchFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImage3x3TextureSamplingFilter))]
+	public partial interface GPUImageToonFilter
+	{
+		[Export ("threshold")]
+		float Threshold { get; set; }
+
+		[Export ("quantizationLevels")]
+		float QuantizationLevels { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilterGroup))]
+	public partial interface GPUImageSmoothToonFilter
+	{
+		[Export ("texelWidth")]
+		float TexelWidth { get; set; }
+
+		[Export ("texelHeight")]
+		float TexelHeight { get; set; }
+
+		[Export ("blurSize")]
+		float BlurSize { get; set; }
+
+		[Export ("threshold")]
+		float Threshold { get; set; }
+
+		[Export ("quantizationLevels")]
+		float QuantizationLevels { get; set; }
+	}
+
+	[BaseType (typeof (GPUImage3x3ConvolutionFilter))]
+	public partial interface GPUImageEmbossFilter
+	{
+		[Export ("intensity")]
+		float Intensity { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImagePosterizeFilter
+	{
+		[Export ("colorLevels")]
+		uint ColorLevels { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageSwirlFilter
+	{
+		[Export ("center")]
+		PointF Center { get; set; }
+
+		[Export ("radius")]
+		float Radius { get; set; }
+
+		[Export ("angle")]
+		float Angle { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageBulgeDistortionFilter
+	{
+		[Export ("center")]
+		PointF Center { get; set; }
+
+		[Export ("radius")]
+		float Radius { get; set; }
+
+		[Export ("scale")]
+		float Scale { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImagePinchDistortionFilter
+	{
+		[Export ("center")]
+		PointF Center { get; set; }
+
+		[Export ("radius")]
+		float Radius { get; set; }
+
+		[Export ("scale")]
+		float Scale { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageStretchDistortionFilter
+	{
+		[Export ("center")]
+		PointF Center { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageSphereRefractionFilter
+	{
+		[Export ("center")]
+		PointF Center { get; set; }
+
+		[Export ("radius")]
+		float Radius { get; set; }
+
+		[Export ("refractiveIndex")]
+		float RefractiveIndex { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageSphereRefractionFilter))]
+	public partial interface GPUImageGlassSphereFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageVignetteFilter
+	{
+		[Export ("vignetteCenter")]
+		PointF VignetteCenter { get; set; }
+
+		[Export ("vignetteColor")]
+		GPUVector3 VignetteColor { get; set; }
+
+		[Export ("vignetteStart")]
+		float VignetteStart { get; set; }
+
+		[Export ("vignetteEnd")]
+		float VignetteEnd { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageKuwaharaFilter
+	{
+		[Export ("radius")]
+		uint Radius { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageKuwaharaRadius3Filter
+	{
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImagePerlinNoiseFilter
+	{
+		[Export ("colorStart")]
+		GPUVector4 ColorStart { get; set; }
+
+		[Export ("colorFinish")]
+		GPUVector4 ColorFinish { get; set; }
+
+		[Export ("scale")]
+		float Scale { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageCGAColorspaceFilter
+	{
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageMosaicFilter
+	{
+		[Export ("inputTileSize")]
+		SizeF InputTileSize { get; set; }
+
+		[Export ("numTiles")]
+		float NumTiles { get; set; }
+
+		[Export ("displayTileSize")]
+		SizeF DisplayTileSize { get; set; }
+
+		[Export ("colorOn")]
+		bool ColorOn { get; set; }
+
+		[Export ("setTileSet")]
+		void SetTileSet (string tileSet);
+	}
+
+	[BaseType (typeof (GPUImageFilter))]
+	public partial interface GPUImageJFAVoronoiFilter
+	{
+		[Export ("sizeInPixels")]
+		SizeF SizeInPixels { get; set; }
+	}
+
+	[BaseType (typeof (GPUImageTwoInputFilter))]
+	public partial interface GPUImageVoronoiConsumerFilter
+	{
+		[Export ("sizeInPixels")]
+		SizeF SizeInPixels { get; set; }
 	}
 }
 
