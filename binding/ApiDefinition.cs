@@ -16,7 +16,7 @@ namespace MonoTouch.GpuImage
 		bool Initialized { get; set; }
 
 		[Export ("initWithVertexShaderString:fragmentShaderString:")]
-		IntPtr Constructor (string vShaderString, string fShaderString);
+		IntPtr Constructor (string vertexShader, string fragmentShader);
 
 		//[Export ("initWithVertexShaderString:fragmentShaderFilename:")]
 		//IntPtr Constructor (string vShaderString, string fShaderFilename);
@@ -34,7 +34,7 @@ namespace MonoTouch.GpuImage
 		uint UniformIndex (string uniformName);
 
 		[Export ("link")]
-		bool Link { get; }
+		bool Link ();
 
 		[Export ("use")]
 		void Use ();
@@ -56,7 +56,7 @@ namespace MonoTouch.GpuImage
 	public partial interface GPUImageInput
 	{
 		[Export ("newFrameReadyAtTime:atIndex:")]
-		void NewFrameReadyAtTime (CMTime frameTime, int textureIndex);
+		void NewFrameReady (CMTime frameTime, int textureIndex);
 
 		[Export ("setInputTexture:atIndex:")]
 		void SetInputTexture (uint newInputTexture, int textureIndex);
@@ -115,10 +115,10 @@ namespace MonoTouch.GpuImage
 		//bool Enabled { get; set; }
 
 		[Export ("setBackgroundColorRed:green:blue:alpha:")]
-		void SetBackgroundColorRed(float redComponent, float greenComponent, float blueComponent, float alphaComponent);
+		void SetBackgroundColor(float redComponent, float greenComponent, float blueComponent, float alphaComponent);
 	}
 
-	public delegate void FrameProcessingCompletionBlock(GPUImageOutput imageOutput, CMTime frameTime);
+	public delegate void FrameProcessingCompletedHandler(GPUImageOutput sender, CMTime frameTime);
 
 	[BaseType (typeof (NSObject))]
 	public partial interface GPUImageOutput : GPUImageTextureDelegate
@@ -133,10 +133,10 @@ namespace MonoTouch.GpuImage
 		//GPUImageMovieWriter AudioEncodingTarget { get; set; }
 
 		[Export ("targetToIgnoreForUpdates", ArgumentSemantic.Assign)]
-		GPUImageInput TargetToIgnoreForUpdates { get; set; }
+		NSObject TargetToIgnoreForUpdates { get; set; }		//todo: should be GPUImageInput
 
 		[Export ("frameProcessingCompletionBlock", ArgumentSemantic.Copy)]
-		FrameProcessingCompletionBlock FrameProcessingCompletionBlock { get; set; }
+		FrameProcessingCompletedHandler FrameProcessingCompletionBlock { get; set; }	//todo: map this to event
 
 		[Export ("enabled")]
 		bool Enabled { get; set; }
@@ -184,10 +184,10 @@ namespace MonoTouch.GpuImage
 		void CleanupOutputImage ();
 
 		[Export ("newCGImageFromCurrentlyProcessedOutput")]
-		CGImage NewCGImageFromCurrentlyProcessedOutput { get; }
+		CGImage NewCGImageFromCurrentlyProcessedOutput ();
 
 		[Export ("newCGImageFromCurrentlyProcessedOutputWithOrientation:")]
-		CGImage NewCGImageFromCurrentlyProcessedOutputWithOrientation (UIImageOrientation imageOrientation);
+		CGImage NewCGImageFromCurrentlyProcessedOutput (UIImageOrientation imageOrientation);
 
 		[Export ("newCGImageByFilteringCGImage:")]
 		CGImage NewCGImageByFilteringCGImage (CGImage imageToFilter);
@@ -196,10 +196,10 @@ namespace MonoTouch.GpuImage
 		CGImage NewCGImageByFilteringCGImage (CGImage imageToFilter, UIImageOrientation orientation);
 
 		[Export ("imageFromCurrentlyProcessedOutput")]
-		UIImage ImageFromCurrentlyProcessedOutput { get; }
+		UIImage ImageFromCurrentlyProcessedOutput ();
 
 		[Export ("imageFromCurrentlyProcessedOutputWithOrientation:")]
-		UIImage ImageFromCurrentlyProcessedOutputWithOrientation (UIImageOrientation imageOrientation);
+		UIImage ImageFromCurrentlyProcessedOutput (UIImageOrientation imageOrientation);
 
 		[Export ("imageByFilteringImage:")]
 		UIImage ImageByFilteringImage (UIImage imageToFilter);
@@ -242,7 +242,7 @@ namespace MonoTouch.GpuImage
 		SizeF OutputImageSize { get; }
 
 		[Export ("processImageWithCompletionHandler:")]
-		bool ProcessImageWithCompletionHandler (Action completion);
+		bool ProcessImage (NSAction completion);
 	}
 
 	[BaseType (typeof (GPUImageOutput))]
@@ -258,10 +258,10 @@ namespace MonoTouch.GpuImage
 		//bool CurrentlyReceivingMonochromeInput { get; set; }
 
 		[Export ("initWithVertexShaderFromString:fragmentShaderFromString:")]
-		IntPtr Constructor (string vertexShaderString, string fragmentShaderString);
+		IntPtr Constructor (string vertexShader, string fragmentShader);
 
 		[Export ("initWithFragmentShaderFromString:")]
-		IntPtr Constructor (string fragmentShaderString);
+		IntPtr Constructor (string fragmentShader);
 
 		//[Export ("initWithFragmentShaderFromFile:")]
 		//IntPtr Constructor (string fragmentShaderFilename);
@@ -269,8 +269,8 @@ namespace MonoTouch.GpuImage
 		[Export ("initializeAttributes")]
 		void InitializeAttributes ();
 
-		[Export ("upFilterForSize")]
-		SizeF upFilterForSize { set; }
+		[Export ("setupFilterForSize")]
+		void SetupFilterForSize (SizeF filterFrameSize);
 
 		[Export ("rotatedSize:forIndex:")]
 		SizeF RotatedSize (SizeF sizeToRotate, int textureIndex);
@@ -285,7 +285,7 @@ namespace MonoTouch.GpuImage
 		SizeF SizeOfFBO { get; }
 
 		[Export ("createFilterFBOofSize:")]
-		void CreateFilterFBOofSize (SizeF currentFBOSize);
+		void CreateFilterFBO (SizeF currentFBOSize);
 
 		[Export ("destroyFilterFBO")]
 		void DestroyFilterFBO ();
@@ -303,16 +303,16 @@ namespace MonoTouch.GpuImage
 		IntPtr TextureCoordinatesForRotation (GPUImageRotationMode rotationMode);
 
 		[Export ("renderToTextureWithVertices:textureCoordinates:sourceTexture:")]
-		void RenderToTextureWithVertices (IntPtr vertices, IntPtr textureCoordinates, uint sourceTexture);
+		void RenderToTexture (IntPtr vertices, IntPtr textureCoordinates, uint sourceTexture);
 
 		[Export ("informTargetsAboutNewFrameAtTime:")]
-		void InformTargetsAboutNewFrameAtTime (CMTime frameTime);
+		void InformTargetsAboutNewFrame (CMTime frameTime);
 
 		[Export ("outputFrameSize")]
 		SizeF OutputFrameSize { get; }
 
 		[Export ("setBackgroundColorRed:green:blue:alpha:")]
-		void SetBackgroundColorRed (float redComponent, float greenComponent, float blueComponent, float alphaComponent);
+		void SetBackgroundColor (float redComponent, float greenComponent, float blueComponent, float alphaComponent);
 
 		[Export ("setInteger:forUniformName:")]
 		void SetInteger (int newInteger, string uniformName);
@@ -363,10 +363,10 @@ namespace MonoTouch.GpuImage
 		void SetInteger (int intValue, int uniform, GLProgram shaderProgram);
 
 		[Export ("setAndExecuteUniformStateCallbackAtIndex:forProgram:toBlock:")]
-		void SetAndExecuteUniformStateCallbackAtIndex (int uniform, GLProgram shaderProgram, Action uniformStateBlock);
+		void SetAndExecuteUniformStateCallback (int uniform, GLProgram shaderProgram, NSAction uniformStateBlock);
 
 		[Export ("uniformsForProgramAtIndex")]
-		uint UniformsForProgramAtIndex { set; }
+		void SetUniformsForProgram (uint programIndex);
 	}
 
 	[BaseType (typeof (GPUImageFilter))]
@@ -385,7 +385,7 @@ namespace MonoTouch.GpuImage
 		void InitializeSecondOutputTextureIfNeeded ();
 
 		[Export ("createSecondFilterFBOofSize:")]
-		void CreateSecondFilterFBOofSize (SizeF currentFBOSize);
+		void CreateSecondFilterFBO (SizeF currentFBOSize);
 	}
 
 	[BaseType (typeof (GPUImageOutput))]
