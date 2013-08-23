@@ -85,7 +85,7 @@ namespace MonoTouch.GpuImage.Samples.FilterShowcase
 					break;
 				case FilterType.Monochrome:
 					var monochrome = new GPUImageMonochromeFilter();
-					monochrome.Color = new GPUVector4 { One = 0f, Two = 0f, Three = 1f, Four = 1f };
+					monochrome.Color = new [] { 0f, 0f, 1f, 1f };
 					filter = monochrome;
 					break;
 				case FilterType.FalseColor:
@@ -278,11 +278,10 @@ namespace MonoTouch.GpuImage.Samples.FilterShowcase
 					break;
 				case FilterType.Convolution3x3:
 					var convo = new GPUImage3x3ConvolutionFilter();
-					convo.ConvolutionKernel = new GPUMatrix3x3
-					{
-						One = new GPUVector3 { One = -1, Two = 0, Three = 1 },
-						Two = new GPUVector3 { One = -2, Two = 0, Three = 2 },
-						Three = new GPUVector3 { One = -1, Two = 0, Three = 1 },
+					convo.ConvolutionKernel = new [,] {
+						{-1f, 0f, 1f},
+						{-2f, 0f, 2f},
+						{-1f, 0f, 1f}
 					};
 					filter = convo;
 					break;
