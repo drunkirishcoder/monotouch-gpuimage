@@ -156,13 +156,7 @@ namespace MonoTouch.GpuImage.Samples.FilterShowcase
 					break;
 				case FilterType.ToneCurve:
 					var tonecurve = new GPUImageToneCurveFilter();
-					tonecurve.BlueControlPoints =
-						new NSObject[]
-						{
-							NSValue.FromPointF(new PointF(0, 0)),
-							NSValue.FromPointF(new PointF(0.25f, 0.25f)),
-							NSValue.FromPointF(new PointF(0.5f, 0.5f))
-						};
+					tonecurve.BlueControlPoints = new [] { new PointF(0, 0), new PointF(0.25f, 0.25f), new PointF(0.5f, 0.5f) };
 					filter = tonecurve;
 					break;
 				case FilterType.HighlightsAndShadows:

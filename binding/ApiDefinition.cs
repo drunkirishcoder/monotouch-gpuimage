@@ -777,17 +777,17 @@ namespace MonoTouch.GpuImage
 	[BaseType (typeof (GPUImageFilter))]
 	public partial interface GPUImageToneCurveFilter
 	{
-		[Export ("redControlPoints", ArgumentSemantic.Copy), NullAllowed]
-		NSObject [] RedControlPoints { get; set; }
+		[Internal, Export ("redControlPoints", ArgumentSemantic.Copy), NullAllowed]
+		NSValue [] GPUImageRedControlPoints { get; set; }
 
-		[Export ("greenControlPoints", ArgumentSemantic.Copy), NullAllowed]
-		NSObject [] GreenControlPoints { get; set; }
+		[Internal, Export ("greenControlPoints", ArgumentSemantic.Copy), NullAllowed]
+		NSValue [] GPUImageGreenControlPoints { get; set; }
 
-		[Export ("blueControlPoints", ArgumentSemantic.Copy), NullAllowed]
-		NSObject [] BlueControlPoints { get; set; }
+		[Internal, Export ("blueControlPoints", ArgumentSemantic.Copy), NullAllowed]
+		NSValue [] GPUImageBlueControlPoints { get; set; }
 
-		[Export ("rgbCompositeControlPoints", ArgumentSemantic.Copy), NullAllowed]
-		NSObject [] RgbCompositeControlPoints { get; set; }
+		[Internal, Export ("rgbCompositeControlPoints", ArgumentSemantic.Copy), NullAllowed]
+		NSValue [] GPUImageRgbCompositeControlPoints { get; set; }
 
 		[Export ("initWithACVData:")]
 		IntPtr Constructor (NSData data);
@@ -804,14 +804,14 @@ namespace MonoTouch.GpuImage
 		[Export ("pointsWithACVURL")]
 		void SetPoints (NSUrl curveFileUrl);
 
-		[Export ("getPreparedSplineCurve:")]
-		NSMutableArray GetPreparedSplineCurve (NSObject [] points);
+		[Internal, Export ("getPreparedSplineCurve:")]
+		NSValue [] GPUImageGetPreparedSplineCurve (NSValue [] points);
 
-		[Export ("splineCurve:")]
-		NSMutableArray GetSplineCurve (NSObject [] points);
+		[Internal, Export ("splineCurve:")]
+		NSValue [] GPUImageGetSplineCurve (NSValue [] points);
 
-		[Export ("secondDerivative:")]
-		NSMutableArray GetSecondDerivative (NSObject [] cgPoints);
+		[Internal, Export ("secondDerivative:")]
+		NSValue [] GPUImageGetSecondDerivative (NSValue [] cgPoints);
 
 		[Export ("updateToneCurveTexture")]
 		void UpdateToneCurveTexture ();
