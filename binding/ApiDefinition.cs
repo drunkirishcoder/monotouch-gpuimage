@@ -1,13 +1,13 @@
 using System;
 using System.Drawing;
-using MonoTouch.ObjCRuntime;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreMedia;
-using MonoTouch.CoreVideo;
-using MonoTouch.CoreGraphics;
-using MonoTouch.CoreAnimation;
-using MonoTouch.AVFoundation;
+using ObjCRuntime;
+using Foundation;
+using UIKit;
+using CoreMedia;
+using CoreVideo;
+using CoreGraphics;
+using CoreAnimation;
+using AVFoundation;
 
 namespace MonoTouch.GpuImage
 {
@@ -70,13 +70,13 @@ namespace MonoTouch.GpuImage
 		int NextAvailableTextureIndex { get; }
 
 		[Export ("setInputSize:atIndex:")]
-		void SetInputSize (SizeF newSize, int textureIndex);
+		void SetInputSize (CGSize newSize, int textureIndex);
 
 		[Export ("setInputRotation:atIndex:")]
 		void SetInputRotation (GPUImageRotationMode newInputRotation, int textureIndex);
 
 		[Export ("maximumOutputSize")]
-		SizeF MaximumOutputSize { get; }
+		CGSize MaximumOutputSize { get; }
 
 		[Export ("endProcessing")]
 		void EndProcessing ();
@@ -111,7 +111,7 @@ namespace MonoTouch.GpuImage
 		GPUImageFillModeType FillMode { get; set; }
 
 		[Export ("sizeInPixels")]
-		SizeF SizeInPixels { get; }
+		CGSize SizeInPixels { get; }
 
 		//[Export ("enabled")]
 		//bool Enabled { get; set; }
@@ -177,10 +177,10 @@ namespace MonoTouch.GpuImage
 		void DeleteOutputTexture ();
 
 		[Export ("forceProcessingAtSize:")]
-		void ForceProcessingAtSize (SizeF frameSize);
+		void ForceProcessingAtSize (CGSize frameSize);
 
 		[Export ("forceProcessingAtSizeRespectingAspectRatio:")]
-		void ForceProcessingAtSizeRespectingAspectRatio (SizeF frameSize);
+		void ForceProcessingAtSizeRespectingAspectRatio (CGSize frameSize);
 
 		[Export ("cleanupOutputImage")]
 		void CleanupOutputImage ();
@@ -241,10 +241,10 @@ namespace MonoTouch.GpuImage
 		void ProcessImage ();
 
 		[Export ("outputImageSize")]
-		SizeF OutputImageSize { get; }
+		CGSize OutputImageSize { get; }
 
 		[Export ("processImageWithCompletionHandler:")]
-		bool ProcessImage (NSAction completion);
+		bool ProcessImage (Action completion);
 	}
 
 	[Model, BaseType (typeof (NSObject))]
@@ -381,7 +381,7 @@ namespace MonoTouch.GpuImage
 		bool ShouldInvalidateAudioSampleWhenDone { get; set; }
 
 		[Export ("completionBlock", ArgumentSemantic.Copy), NullAllowed]
-		NSAction CompletionBlock { get; set; }
+		Action CompletionBlock { get; set; }
 
 		[Export ("failureBlock", ArgumentSemantic.Copy), NullAllowed]
 		NSErrorHandler FailureBlock { get; set; }
@@ -393,19 +393,19 @@ namespace MonoTouch.GpuImage
 		bool EncodingLiveVideo { get; set; }
 
 		[Export ("videoInputReadyCallback", ArgumentSemantic.Copy), NullAllowed]
-		NSAction VideoInputReadyCallback { get; set; }
+		Action VideoInputReadyCallback { get; set; }
 
 		[Export ("audioInputReadyCallback", ArgumentSemantic.Copy), NullAllowed]
-		NSAction AudioInputReadyCallback { get; set; }
+		Action AudioInputReadyCallback { get; set; }
 
 		//[Export ("enabled")]
 		//bool Enabled { get; set; }
 
 		[Export ("initWithMovieURL:size:")]
-		IntPtr Constructor (NSUrl newMovieURL, SizeF newSize);
+		IntPtr Constructor (NSUrl newMovieURL, CGSize newSize);
 
 		[Export ("initWithMovieURL:size:fileType:outputSettings:")]
-		IntPtr Constructor (NSUrl newMovieURL, SizeF newSize, string newFileType, NSMutableDictionary outputSettings);
+		IntPtr Constructor (NSUrl newMovieURL, CGSize newSize, string newFileType, NSMutableDictionary outputSettings);
 
 		[Export ("setHasAudioTrack:audioSettings:")]
 		void SetHasAudioTrack (bool hasAudioTrack, NSDictionary audioOutputSettings);
@@ -420,7 +420,7 @@ namespace MonoTouch.GpuImage
 		void FinishRecording ();
 
 		[Export ("finishRecordingWithCompletionHandler:")]
-		void FinishRecordingWithCompletionHandler (NSAction handler);
+		void FinishRecordingWithCompletionHandler (Action handler);
 
 		[Export ("cancelRecording")]
 		void CancelRecording ();
@@ -516,11 +516,11 @@ namespace MonoTouch.GpuImage
 		[Export ("initializeAttributes")]
 		void InitializeAttributes ();
 
-		[Export ("setupFilterForSize")]
-		void SetupFilterForSize (SizeF filterFrameSize);
+		[Export ("setupFilterForSize:")]
+		void SetupFilterForSize (CGSize filterFrameSize);
 
 		[Export ("rotatedSize:forIndex:")]
-		SizeF RotatedSize (SizeF sizeToRotate, int textureIndex);
+		CGSize RotatedSize (CGSize sizeToRotate, int textureIndex);
 
 		[Export ("rotatedPoint:forRotation:")]
 		PointF RotatedPoint (PointF pointToRotate, GPUImageRotationMode rotation);
@@ -529,10 +529,10 @@ namespace MonoTouch.GpuImage
 		void RecreateFilterFBO ();
 
 		[Export ("sizeOfFBO")]
-		SizeF SizeOfFBO { get; }
+		CGSize SizeOfFBO { get; }
 
 		[Export ("createFilterFBOofSize:")]
-		void CreateFilterFBO (SizeF currentFBOSize);
+		void CreateFilterFBO (CGSize currentFBOSize);
 
 		[Export ("destroyFilterFBO")]
 		void DestroyFilterFBO ();
@@ -556,7 +556,7 @@ namespace MonoTouch.GpuImage
 		void InformTargetsAboutNewFrame (CMTime frameTime);
 
 		[Export ("outputFrameSize")]
-		SizeF OutputFrameSize { get; }
+		CGSize OutputFrameSize { get; }
 
 		[Export ("setBackgroundColorRed:green:blue:alpha:")]
 		void SetBackgroundColor (float redComponent, float greenComponent, float blueComponent, float alphaComponent);
@@ -568,7 +568,7 @@ namespace MonoTouch.GpuImage
 		void SetFloat (float newFloat, string uniformName);
 
 		[Export ("setSize:forUniformName:")]
-		void SetSize (SizeF newSize, string uniformName);
+		void SetSize (CGSize newSize, string uniformName);
 
 		[Export ("setPoint:forUniformName:")]
 		void SetPoint (PointF newPoint, string uniformName);
@@ -595,7 +595,7 @@ namespace MonoTouch.GpuImage
 		void SetPoint (PointF pointValue, int uniform, GLProgram shaderProgram);
 
 		[Export ("setSize:forUniform:program:")]
-		void SetSize (SizeF sizeValue, int uniform, GLProgram shaderProgram);
+		void SetSize (CGSize sizeValue, int uniform, GLProgram shaderProgram);
 
 		[Export ("setVec3:forUniform:program:")]
 		void SetVec3 (GPUVector3 vectorValue, int uniform, GLProgram shaderProgram);
@@ -610,9 +610,9 @@ namespace MonoTouch.GpuImage
 		void SetInteger (int intValue, int uniform, GLProgram shaderProgram);
 
 		[Export ("setAndExecuteUniformStateCallbackAtIndex:forProgram:toBlock:")]
-		void SetAndExecuteUniformStateCallback (int uniform, GLProgram shaderProgram, NSAction uniformStateBlock);
+		void SetAndExecuteUniformStateCallback (int uniform, GLProgram shaderProgram, Action uniformStateBlock);
 
-		[Export ("uniformsForProgramAtIndex")]
+		[Export ("uniformsForProgramAtIndex:")]
 		void SetUniformsForProgram (uint programIndex);
 	}
 
@@ -626,7 +626,7 @@ namespace MonoTouch.GpuImage
 		IntPtr Constructor (CALayer inputLayer);
 
 		[Export ("layerSizeInPixels")]
-		SizeF LayerSizeInPixels { get; }
+		CGSize LayerSizeInPixels { get; }
 
 		[Export ("update")]
 		void Update ();
@@ -655,7 +655,7 @@ namespace MonoTouch.GpuImage
 		void InitializeSecondOutputTextureIfNeeded ();
 
 		[Export ("createSecondFilterFBOofSize:")]
-		void CreateSecondFilterFBO (SizeF currentFBOSize);
+		void CreateSecondFilterFBO (CGSize currentFBOSize);
 	}
 
 	[BaseType (typeof (GPUImageOutput))]
@@ -798,10 +798,10 @@ namespace MonoTouch.GpuImage
 		[Export ("initWithACVURL:")]
 		IntPtr Constructor (NSUrl curveFileUrl);
 
-		[Export ("pointsWithACV")]
+		[Export ("pointsWithACV:")]
 		void SetPoints (string curveFilename);
 
-		[Export ("pointsWithACVURL")]
+		[Export ("pointsWithACVURL:")]
 		void SetPoints (NSUrl curveFileUrl);
 
 		[Internal, Export ("getPreparedSplineCurve:")]
@@ -1033,10 +1033,10 @@ namespace MonoTouch.GpuImage
 	public partial interface GPUImageCropFilter
 	{
 		[Export ("cropRegion")]
-		RectangleF CropRegion { get; set; }
+		CGRect CropRegion { get; set; }
 
 		[Export ("initWithCropRegion:")]
-		IntPtr Constructor (RectangleF newCropRegion);
+		IntPtr Constructor (CGRect newCropRegion);
 	}
 
 	[BaseType (typeof (GPUImageTwoPassFilter))]
@@ -1053,7 +1053,7 @@ namespace MonoTouch.GpuImage
 	public partial interface GPUImageLanczosResamplingFilter
 	{
 		[Export ("originalImageSize")]
-		SizeF OriginalImageSize { get; set; }
+		CGSize OriginalImageSize { get; set; }
 	}
 
 	[BaseType (typeof (GPUImageFilter))]
@@ -1611,7 +1611,7 @@ namespace MonoTouch.GpuImage
 		PointF Center { get; set; }
 
 		[Export ("pixelSize")]
-		SizeF PixelSize { get; set; }
+		CGSize PixelSize { get; set; }
 	}
 
 	[BaseType (typeof (GPUImagePixellateFilter))]
@@ -1803,13 +1803,13 @@ namespace MonoTouch.GpuImage
 	public partial interface GPUImageMosaicFilter
 	{
 		[Export ("inputTileSize")]
-		SizeF InputTileSize { get; set; }
+		CGSize InputTileSize { get; set; }
 
 		[Export ("numTiles")]
 		float NumTiles { get; set; }
 
 		[Export ("displayTileSize")]
-		SizeF DisplayTileSize { get; set; }
+		CGSize DisplayTileSize { get; set; }
 
 		[Export ("colorOn")]
 		bool ColorOn { get; set; }
@@ -1822,14 +1822,14 @@ namespace MonoTouch.GpuImage
 	public partial interface GPUImageJFAVoronoiFilter
 	{
 		[Export ("sizeInPixels")]
-		SizeF SizeInPixels { get; set; }
+		CGSize SizeInPixels { get; set; }
 	}
 
 	[BaseType (typeof (GPUImageTwoInputFilter))]
 	public partial interface GPUImageVoronoiConsumerFilter
 	{
 		[Export ("sizeInPixels")]
-		SizeF SizeInPixels { get; set; }
+		CGSize SizeInPixels { get; set; }
 	}
 
 	[BaseType (typeof (GPUImageFilter))]

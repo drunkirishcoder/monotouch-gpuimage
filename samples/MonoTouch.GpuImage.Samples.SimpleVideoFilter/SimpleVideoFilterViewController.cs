@@ -60,7 +60,7 @@ namespace MonoTouch.GpuImage.Samples.SimpleVideoFilter
 				File.Delete(pathToMovie);
 			}
 
-			var movieWriter = new GPUImageMovieWriter(pathToMovie, new SizeF(480, 640));
+			var movieWriter = new GPUImageMovieWriter(pathToMovie, new CGSize(480, 640));
 			_filter.AddTarget(movieWriter);
 
 			_videoCamera.StartCameraCapture();

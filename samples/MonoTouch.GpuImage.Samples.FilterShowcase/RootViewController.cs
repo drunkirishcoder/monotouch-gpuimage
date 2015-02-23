@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 using System.Collections.Generic;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+using UIKit;
+using Foundation;
 
 namespace MonoTouch.GpuImage.Samples.FilterShowcase
 {
@@ -50,12 +50,12 @@ namespace MonoTouch.GpuImage.Samples.FilterShowcase
 				Array.Sort(filters, (x, y) => x.ToString().CompareTo(y.ToString()));
 			}
 
-			public override int NumberOfSections(UITableView tableView)
+			public override nint NumberOfSections(UITableView tableView)
 			{
 				return 1;
 			}
 
-			public override int RowsInSection(UITableView tableview, int section)
+			public override nint RowsInSection(UITableView tableview, nint section)
 			{
 				return filters.Length;
 			}
