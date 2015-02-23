@@ -1,21 +1,22 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
+using CoreGraphics;
 
 namespace MonoTouch.GpuImage
 {
 	public partial class GPUImageView : UIView
 	{
-		public GPUImageView(RectangleF frame) : base(frame)
+		public GPUImageView(CGRect frame) : base(frame)
 		{
 		}
 	}
 
 	public partial class GPUImageMovieWriter
 	{
-		public GPUImageMovieWriter(string filename, SizeF newSize)
+		public GPUImageMovieWriter(string filename, CGSize newSize)
 			: this(NSUrl.FromFilename(filename), newSize)
 		{
 		}
@@ -23,41 +24,41 @@ namespace MonoTouch.GpuImage
 
 	public partial class GPUImageToneCurveFilter
 	{
-		public PointF[] RedControlPoints
+		public CGPoint[] RedControlPoints
 		{
 			get { return GPUImageRedControlPoints.ToPoints(); }
 			set { GPUImageRedControlPoints = value.ToNSValues(); }
 		}
 
-		public PointF[] GreenControlPoints
+		public CGPoint[] GreenControlPoints
 		{
 			get { return GPUImageGreenControlPoints.ToPoints(); }
 			set { GPUImageGreenControlPoints = value.ToNSValues(); }
 		}
 
-		public PointF[] BlueControlPoints
+		public CGPoint[] BlueControlPoints
 		{
 			get { return GPUImageBlueControlPoints.ToPoints(); }
 			set { GPUImageBlueControlPoints = value.ToNSValues(); }
 		}
 
-		public PointF[] RgbCompositeControlPoints
+		public CGPoint[] RgbCompositeControlPoints
 		{
 			get { return GPUImageRgbCompositeControlPoints.ToPoints(); }
 			set { GPUImageRgbCompositeControlPoints = value.ToNSValues(); }
 		}
 
-		public PointF[] GetPreparedSplineCurve(PointF[] points)
+		public CGPoint[] GetPreparedSplineCurve(CGPoint[] points)
 		{
 			return GPUImageGetPreparedSplineCurve(points.ToNSValues()).ToPoints();
 		}
 
-		public PointF[] GetSplineCurve(PointF[] points)
+		public CGPoint[] GetSplineCurve(CGPoint[] points)
 		{
 			return GPUImageGetSplineCurve(points.ToNSValues()).ToPoints();
 		}
 
-		public PointF[] GetSecondDerivative(PointF[] cgPoints)
+		public CGPoint[] GetSecondDerivative(CGPoint[] cgPoints)
 		{
 			return GPUImageGetSecondDerivative(cgPoints.ToNSValues()).ToPoints();
 		}
@@ -65,14 +66,14 @@ namespace MonoTouch.GpuImage
 
 	internal static class Extensions
 	{
-		public static PointF[] ToPoints(this NSValue[] @this)
+		public static CGPoint[] ToPoints(this NSValue[] @this)
 		{
-			return @this.Select(x => x.PointFValue).ToArray();
+			return @this.Select(x => x.CGPointValue).ToArray();
 		}
 
-		public static NSValue[] ToNSValues(this PointF[] @this)
+		public static NSValue[] ToNSValues(this CGPoint[] @this)
 		{
-			return @this.Select(x => NSValue.FromPointF(x)).ToArray();
+			return @this.Select(x => NSValue.FromCGPoint(x)).ToArray();
 		}
 	}
 }

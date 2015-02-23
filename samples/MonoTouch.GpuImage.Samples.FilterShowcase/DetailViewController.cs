@@ -1,10 +1,10 @@
 using System;
-using System.Drawing;
+using CoreGraphics;
 using System.Collections.Generic;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.CoreGraphics;
-using MonoTouch.CoreAnimation;
+using Foundation;
+using UIKit;
+using CoreGraphics;
+using CoreAnimation;
 using MonoTouch.GpuImage;
 
 namespace MonoTouch.GpuImage.Samples.FilterShowcase
@@ -156,7 +156,7 @@ namespace MonoTouch.GpuImage.Samples.FilterShowcase
 					break;
 				case FilterType.ToneCurve:
 					var tonecurve = new GPUImageToneCurveFilter();
-					tonecurve.BlueControlPoints = new [] { new PointF(0, 0), new PointF(0.25f, 0.25f), new PointF(0.5f, 0.5f) };
+					tonecurve.BlueControlPoints = new [] { new CGPoint(0, 0), new CGPoint(0.25f, 0.25f), new CGPoint(0.5f, 0.5f) };
 					filter = tonecurve;
 					break;
 				case FilterType.HighlightsAndShadows:
@@ -187,7 +187,7 @@ namespace MonoTouch.GpuImage.Samples.FilterShowcase
 					filter = new GPUImageAverageLuminanceThresholdFilter();
 					break;
 				case FilterType.Crop:
-					filter = new GPUImageCropFilter(new RectangleF(0, 0, 1, 0.25f));
+					filter = new GPUImageCropFilter(new CGRect(0, 0, 1, 0.25f));
 					break;
 				//case FilterType.Mask:
 				//	return;
@@ -386,10 +386,11 @@ namespace MonoTouch.GpuImage.Samples.FilterShowcase
 					position.BlurRadius = 160.0f / 320.0f;
 					filter = position;
 					break;
-				case FilterType.BilateralBlur:
-					var bilateral = new GPUImageBilateralFilter();
-					bilateral.BlurSize = 5;
-					filter = bilateral;
+			case FilterType.BilateralBlur:
+				var bilateral = new GPUImageBilateralFilter ();
+				bilateral.BlurSize = 5;
+				filter = bilateral;
+				break;
 				case FilterType.Custom:
 					filter = new GPUImageFilter("CustomFilter");
 					break;
